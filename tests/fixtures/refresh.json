@@ -1,0 +1,418 @@
+{
+  "schema_version": "1.0.0",
+  "verified_by": "Inspection of previously downloaded official CSV files; no new network request",
+  "snapshot_as_of": "2026-09-25",
+  "verification_date": "2026-09-27",
+  "request_template_status": "Base endpoint and exact headers verified against local successful downloads; date-window variants shown for implementation and not re-requested in this fixture task.",
+  "common_contract": {
+    "csv_parser": "RFC 4180 compliant quoted-field parser; never split on comma or semicolon manually",
+    "encoding": "UTF-8; remove a leading BOM before header matching",
+    "header_policy": "Required named columns must exist exactly once. Map by name rather than ordinal position, except Bundesbank value column is identified by its series ID. Unexpected extra columns may be ignored only after recording schema drift; missing or duplicate required columns fail validation.",
+    "date_policy": "Normalize observation month to YYYY-MM-01; do not interpret observation date as publication date. Exclude the currently incomplete calendar month.",
+    "numeric_policy": "Preserve numeric precision; require a finite number and a strict decimal/scientific-notation match. Blank/missing tokens produce no observation, never zero. Do not round to DECIMALS during storage.",
+    "observation_status_policy": "Preserve OBS_STATUS / flags as source metadata; provisional data can be displayed as provisional. Do not silently mark provisional observations final.",
+    "ordering": "Source rows may be unsorted. Sort after parsing and reject conflicting duplicates for the same indicator/month.",
+    "publication_policy": "Build and validate a new snapshot, compare with prior values, then publish atomically. Failed downloads or invalid payloads leave the prior valid snapshot available.",
+    "revisions": "Refresh a rolling history and periodically refresh full history because seasonal adjustments and statistical revisions can alter old months.",
+    "gap_policy": "No interpolation or forward-fill. A valid response with no new data is not evidence of an error and is not a newly published observation."
+  },
+  "adapters": [
+    {
+      "id": "ecb_bsi_m2",
+      "provider": "欧洲央行 ECB",
+      "local_raw_file": "work/europe_data/ecb_ea_m2_sa.csv",
+      "raw_sha256": "b67f33549018ce47bca486a1ccac737429b6b24b3cf78f61dfef9c63b1f364ab",
+      "source_url": "https://data-api.ecb.europa.eu/service/data/BSI/M.U2.Y.V.M20.X.1.U2.2300.Z01.E?format=csvdata",
+      "request_template": "https://data-api.ecb.europa.eu/service/data/BSI/M.U2.Y.V.M20.X.1.U2.2300.Z01.E?format=csvdata&startPeriod={start_yyyy_mm}&endPeriod={last_complete_yyyy_mm}",
+      "delimiter": ",",
+      "exact_observed_header": [
+        "KEY",
+        "FREQ",
+        "REF_AREA",
+        "ADJUSTMENT",
+        "BS_REP_SECTOR",
+        "BS_ITEM",
+        "MATURITY_ORIG",
+        "DATA_TYPE",
+        "COUNT_AREA",
+        "BS_COUNT_SECTOR",
+        "CURRENCY_TRANS",
+        "BS_SUFFIX",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "OBS_STATUS",
+        "OBS_CONF",
+        "OBS_PRE_BREAK",
+        "OBS_COM",
+        "TIME_FORMAT",
+        "BREAKS",
+        "COLLECTION",
+        "COMPILING_ORG",
+        "DISS_ORG",
+        "DOM_SER_IDS",
+        "PUBL_ECB",
+        "PUBL_MU",
+        "PUBL_PUBLIC",
+        "UNIT_INDEX_BASE",
+        "COMPILATION",
+        "DECIMALS",
+        "NAT_TITLE",
+        "SOURCE_AGENCY",
+        "TITLE",
+        "TITLE_COMPL",
+        "UNIT",
+        "UNIT_MULT"
+      ],
+      "required_columns": [
+        "KEY",
+        "FREQ",
+        "REF_AREA",
+        "ADJUSTMENT",
+        "BS_ITEM",
+        "DATA_TYPE",
+        "COUNT_AREA",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT",
+        "UNIT_MULT"
+      ],
+      "row_filters": {
+        "KEY": "BSI.M.U2.Y.V.M20.X.1.U2.2300.Z01.E",
+        "FREQ": "M",
+        "REF_AREA": "U2",
+        "ADJUSTMENT": "Y",
+        "BS_ITEM": "M20",
+        "DATA_TYPE": "1",
+        "COUNT_AREA": "U2",
+        "UNIT": "EUR",
+        "UNIT_MULT": "6"
+      },
+      "mapping": {
+        "indicator_id": "ea.m2_level",
+        "date_column": "TIME_PERIOD",
+        "date_format": "YYYY-MM",
+        "value_column": "OBS_VALUE",
+        "source_unit": "million EUR",
+        "normalized_unit": "EUR billion",
+        "normalized_value_expression": "Number(OBS_VALUE) / 1000",
+        "status_column": "OBS_STATUS"
+      },
+      "definition_zh": "欧元区成员构成变化口径M2，月末余额，季调及工作日调整；不是固定19国口径。",
+      "safety_checks": [
+        "Require stocks DATA_TYPE=1; annual growth/index-of-notional-stocks must not enter the M2 level indicator.",
+        "UNIT_MULT=6 means million, not billion; output in billion requires /1000.",
+        "Keep 1970s separately curated backcast intact: this API starts in 1980 and must not delete or overwrite the archived 1970s segment."
+      ],
+      "sample_csv": "KEY,FREQ,REF_AREA,ADJUSTMENT,BS_REP_SECTOR,BS_ITEM,MATURITY_ORIG,DATA_TYPE,COUNT_AREA,BS_COUNT_SECTOR,CURRENCY_TRANS,BS_SUFFIX,TIME_PERIOD,OBS_VALUE,OBS_STATUS,OBS_CONF,OBS_PRE_BREAK,OBS_COM,TIME_FORMAT,BREAKS,COLLECTION,COMPILING_ORG,DISS_ORG,DOM_SER_IDS,PUBL_ECB,PUBL_MU,PUBL_PUBLIC,UNIT_INDEX_BASE,COMPILATION,DECIMALS,NAT_TITLE,SOURCE_AGENCY,TITLE,TITLE_COMPL,UNIT,UNIT_MULT\r\nBSI.M.U2.Y.V.M20.X.1.U2.2300.Z01.E,M,U2,Y,V,M20,X,1,U2,2300,Z01,E,2026-07,16434747,A,F,,,P1M,,E,,,,,,,,,2,,,\"Monetary aggregate M2, Stocks\",\"Euro area (changing composition), Outstanding amounts at the end of the period (stocks), MFIs, central government and post office giro institutions reporting sector - Monetary aggregate M2, All currencies combined - Euro area (changing composition) counterpart, Non-MFIs excluding central government sector, denominated in Euro, data Working day and seasonally adjusted\",EUR,6\r\nBSI.M.U2.Y.V.M20.X.1.U2.2300.Z01.E,M,U2,Y,V,M20,X,1,U2,2300,Z01,E,2026-08,16447405,P,F,,,P1M,,E,,,,,,,,,2,,,\"Monetary aggregate M2, Stocks\",\"Euro area (changing composition), Outstanding amounts at the end of the period (stocks), MFIs, central government and post office giro institutions reporting sector - Monetary aggregate M2, All currencies combined - Euro area (changing composition) counterpart, Non-MFIs excluding central government sector, denominated in Euro, data Working day and seasonally adjusted\",EUR,6\r\n",
+      "expected": [
+        {
+          "indicator_id": "ea.m2_level",
+          "date": "2026-07-01",
+          "value": 16434.747,
+          "unit": "EUR billion",
+          "status": "A"
+        },
+        {
+          "indicator_id": "ea.m2_level",
+          "date": "2026-08-01",
+          "value": 16447.405,
+          "unit": "EUR billion",
+          "status": "P"
+        }
+      ]
+    },
+    {
+      "id": "bundesbank_m2_contribution",
+      "provider": "德国联邦银行",
+      "local_raw_file": "work/europe_data/bbk_de_m2.csv",
+      "raw_sha256": "b0d1c1b2b4f01f40af7e2bd775f4d32de48f731b4601b1b5ae0fd71466ea9cee",
+      "source_url": "https://api.statistiken.bundesbank.de/rest/data/BBBK10/M.TXI302?format=csv",
+      "request_template": "https://api.statistiken.bundesbank.de/rest/data/BBBK10/M.TXI302?format=csv&startPeriod={start_yyyy_mm}&endPeriod={last_complete_yyyy_mm}",
+      "delimiter": ";",
+      "leading_bom": true,
+      "exact_observed_header": [
+        "",
+        "BBBK10.M.TXI302",
+        "BBBK10.M.TXI302_FLAGS"
+      ],
+      "required_columns": [
+        "BBBK10.M.TXI302",
+        "BBBK10.M.TXI302_FLAGS"
+      ],
+      "metadata_rows": [
+        [
+          "",
+          "Geldmenge M2 / Deutscher Beitrag",
+          ""
+        ],
+        [
+          "Dezimalstellen",
+          "0",
+          ""
+        ],
+        [
+          "Dimension",
+          "Millionen",
+          ""
+        ],
+        [
+          "Einheit",
+          "EURO",
+          ""
+        ],
+        [
+          "Format der Zeitangabe",
+          "P1M",
+          ""
+        ],
+        [
+          "Hinweise zur Methodik",
+          "Die Angaben sind mit den bis Ende 1998 für Deutschland veröffentlichten Zahlen wegen unterschiedlicher Positionsinhalte und abweichender Berichtskreise nicht vergleichbar. Ab Jan. 2002 ohne Bargeldumlauf.",
+          ""
+        ],
+        [
+          "Hinweise zur Methodik (englisch)",
+          "",
+          ""
+        ],
+        [
+          "Kategorie",
+          "BABA10",
+          ""
+        ],
+        [
+          "Kommentar",
+          "Die deutschen Beiträge zu den monetären Aggregaten des Eurosystems sind keinesfalls als eigene nationale Geldmengenaggregate zu interpretieren und damit auch nicht mit den früheren deutschen Geldbeständen M1, M2 oder M3 vergleichbar. M1 zuzüglich Einlagen mit vereinbarter Laufzeit bis zu 2 Jahren und vereinbarter Kündigungsfrist bis zu 3 Monaten (ohne Einlagenvon Zentralstaaten) sowie (für EWU) monetäre Verbindlichkeiten der Zentralstaaten mit solcher Befristung.",
+          ""
+        ],
+        [
+          "Kommentar (englisch)",
+          "",
+          ""
+        ],
+        [
+          "Stand vom",
+          "25.09.2026 12:36:55 Uhr",
+          ""
+        ]
+      ],
+      "metadata_assertions": {
+        "Dimension": "Millionen",
+        "Einheit": "EURO",
+        "Format der Zeitangabe": "P1M"
+      },
+      "row_filters": {
+        "first_column_regex": "^\\d{4}-(0[1-9]|1[0-2])$"
+      },
+      "mapping": {
+        "indicator_id": "de.m2_level",
+        "date_column_index": 0,
+        "date_format": "YYYY-MM",
+        "value_column": "BBBK10.M.TXI302",
+        "flags_column": "BBBK10.M.TXI302_FLAGS",
+        "source_unit": "million EUR",
+        "normalized_unit": "EUR billion",
+        "normalized_value_expression": "Number(value) / 1000"
+      },
+      "definition_zh": "德国对欧元区M2的贡献；不是独立国家M2。未季调、月末余额；2002-01起排除流通现金。",
+      "safety_checks": [
+        "Rows before monthly data are metadata, not observations. Detect by date pattern rather than hardcoding a line skip count.",
+        "The first header cell is empty; do not drop the first column.",
+        "Default response metadata is German. If requesting a different language, normalize and verify the equivalent units explicitly; do not accept an unknown unit.",
+        "Keep the Jan-2002 break and legacy DEM series separate."
+      ],
+      "sample_csv": "﻿;BBBK10.M.TXI302;BBBK10.M.TXI302_FLAGS\r\n;Geldmenge M2 / Deutscher Beitrag;\r\nDezimalstellen;0;\r\nDimension;Millionen;\r\nEinheit;EURO;\r\nFormat der Zeitangabe;P1M;\r\nHinweise zur Methodik;Die Angaben sind mit den bis Ende 1998 für Deutschland veröffentlichten Zahlen wegen unterschiedlicher Positionsinhalte und abweichender Berichtskreise nicht vergleichbar. Ab Jan. 2002 ohne Bargeldumlauf.;\r\nHinweise zur Methodik (englisch);;\r\nKategorie;BABA10;\r\nKommentar;Die deutschen Beiträge zu den monetären Aggregaten des Eurosystems sind keinesfalls als eigene nationale Geldmengenaggregate zu interpretieren und damit auch nicht mit den früheren deutschen Geldbeständen M1, M2 oder M3 vergleichbar. M1 zuzüglich Einlagen mit vereinbarter Laufzeit bis zu 2 Jahren und vereinbarter Kündigungsfrist bis zu 3 Monaten (ohne Einlagenvon Zentralstaaten) sowie (für EWU) monetäre Verbindlichkeiten der Zentralstaaten mit solcher Befristung.;\r\nKommentar (englisch);;\r\nStand vom;25.09.2026 12:36:55 Uhr;\r\n2026-07;4077186;\r\n2026-08;4082736;\r\n",
+      "expected": [
+        {
+          "indicator_id": "de.m2_level",
+          "date": "2026-07-01",
+          "value": 4077.186,
+          "unit": "EUR billion",
+          "flags": ""
+        },
+        {
+          "indicator_id": "de.m2_level",
+          "date": "2026-08-01",
+          "value": 4082.736,
+          "unit": "EUR billion",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "boe_m2",
+      "provider": "英格兰银行",
+      "local_raw_file": "work/uk_data/raw/boe_m2.csv",
+      "raw_sha256": "91de3c89d25d125e40e26012e5723c12487331909028cc73d97849d6755ea693",
+      "source_url": "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/1970&Dateto=25/Sep/2026&SeriesCodes=LPMVQWK,LPMVWYW&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N",
+      "request_template": "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp?csv.x=yes&Datefrom={dd/Mon/yyyy}&Dateto={dd/Mon/yyyy}&SeriesCodes=LPMVQWK,LPMVWYW&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N",
+      "delimiter": ",",
+      "exact_observed_header": [
+        "DATE",
+        "LPMVQWK",
+        "LPMVWYW"
+      ],
+      "required_columns": [
+        "DATE",
+        "LPMVQWK",
+        "LPMVWYW"
+      ],
+      "mapping": {
+        "date_column": "DATE",
+        "date_format": "DD Mon YYYY; English month abbreviation; date denotes month-end",
+        "normalize_date": "YYYY-MM-01",
+        "source_unit": "GBP million",
+        "normalized_unit": "GBP billion",
+        "normalized_value_expression": "Number(series_value) / 1000",
+        "series": {
+          "LPMVQWK": {
+            "indicator_id": "uk.m2_level",
+            "role": "primary"
+          },
+          "LPMVWYW": {
+            "indicator_id": "uk.m2_emu_alternative",
+            "role": "supplemental"
+          }
+        }
+      },
+      "unit_evidence": "Unit is not included in this CSV response. Existing verified BoE series metadata declares GBP million for both series; validate the exact series codes and keep this unit declaration in the adapter registry.",
+      "definition_zh": "LPMVQWK为M2／Retail M4，LPMVWYW为EMU口径M2估计；均季调、月末余额，两者分别展示。",
+      "safety_checks": [
+        "English dates must be parsed explicitly, not via browser locale-sensitive Date.parse.",
+        "Empty LPMVWYW in early rows is missing, not zero.",
+        "Never replace main Retail M4 with EMU M2 if one series lacks the latest month.",
+        "Preserve 1992-12 and 2007-10 main-series breaks and supplemental historical revisions."
+      ],
+      "sample_csv": "DATE,LPMVQWK,LPMVWYW\r\n30 Jun 2026,2496655,3236285\r\n31 Jul 2026,2501606,3239710\r\n",
+      "expected": [
+        {
+          "indicator_id": "uk.m2_level",
+          "date": "2026-06-01",
+          "value": 2496.655,
+          "unit": "GBP billion"
+        },
+        {
+          "indicator_id": "uk.m2_emu_alternative",
+          "date": "2026-06-01",
+          "value": 3236.285,
+          "unit": "GBP billion"
+        },
+        {
+          "indicator_id": "uk.m2_level",
+          "date": "2026-07-01",
+          "value": 2501.606,
+          "unit": "GBP billion"
+        },
+        {
+          "indicator_id": "uk.m2_emu_alternative",
+          "date": "2026-07-01",
+          "value": 3239.71,
+          "unit": "GBP billion"
+        }
+      ]
+    },
+    {
+      "id": "oecd_national_cpi_yoy",
+      "provider": "OECD",
+      "local_raw_file": "work/inflation/oecd_all.csv",
+      "raw_sha256": "6c684d2ebc04e70b8a895c15db701ff71749fcf2aeaa5cd569d904e8cb3c79eb",
+      "source_url": "https://sdmx.oecd.org/public/rest/v1/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/JPN+CHN+GBR+FRA+DEU+EA19+EA20.M.N.CPI.PA._T.N.GY?startPeriod=1970-01&endPeriod=2026-08&format=csvfile",
+      "request_template": "https://sdmx.oecd.org/public/rest/v1/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/JPN+CHN+GBR+FRA+DEU+EA19+EA20.M.N.CPI.PA._T.N.GY?startPeriod={start_yyyy_mm}&endPeriod={last_complete_yyyy_mm}&format=csvfile",
+      "delimiter": ",",
+      "exact_observed_header": [
+        "DATAFLOW",
+        "REF_AREA",
+        "FREQ",
+        "METHODOLOGY",
+        "MEASURE",
+        "UNIT_MEASURE",
+        "EXPENDITURE",
+        "ADJUSTMENT",
+        "TRANSFORMATION",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "OBS_STATUS",
+        "UNIT_MULT",
+        "BASE_PER",
+        "DURABILITY",
+        "DECIMALS"
+      ],
+      "required_columns": [
+        "DATAFLOW",
+        "REF_AREA",
+        "FREQ",
+        "METHODOLOGY",
+        "MEASURE",
+        "UNIT_MEASURE",
+        "EXPENDITURE",
+        "ADJUSTMENT",
+        "TRANSFORMATION",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT_MULT"
+      ],
+      "row_filters": {
+        "DATAFLOW": "OECD.SDD.TPS:DSD_PRICES@DF_PRICES_ALL(1.0)",
+        "FREQ": "M",
+        "METHODOLOGY": "N",
+        "MEASURE": "CPI",
+        "UNIT_MEASURE": "PA",
+        "EXPENDITURE": "_T",
+        "ADJUSTMENT": "N",
+        "TRANSFORMATION": "GY",
+        "UNIT_MULT_allowed": [
+          "",
+          "0"
+        ]
+      },
+      "mapping": {
+        "date_column": "TIME_PERIOD",
+        "date_format": "YYYY-MM",
+        "value_column": "OBS_VALUE",
+        "source_unit": "percent year-on-year",
+        "normalized_unit": "percent",
+        "normalized_value_expression": "Number(OBS_VALUE)",
+        "status_column": "OBS_STATUS",
+        "region_to_indicator": {
+          "CHN": "cn.inflation_yoy",
+          "GBR": "uk.inflation_yoy",
+          "DEU": "de.inflation_yoy",
+          "FRA": "fr.inflation_yoy",
+          "JPN": "jp.inflation_yoy",
+          "EA20": "ea.inflation_yoy_ea20_alternative"
+        }
+      },
+      "source_priority_rules": {
+        "JPN": "Keep official e-stat as primary from1971 onward; OECD currently fills1970 only, and newer OECD values must not silently override e-stat.",
+        "FRA": "OECD current snapshot ends2025-12; INSEE supplies2026. Overlapping later updates must be compared/reconciled with published final INSEE values, not last-row-wins.",
+        "EA20": "Supplemental only. Never use for ea.inflation_yoy or the EA19 real-rate proxy.",
+        "EA19": "Not mapped in current snapshot; ignore or quarantine until source definition and approved indicator mapping exist."
+      },
+      "definition_zh": "国家总体CPI同比，未季调。GY表示与上一年同月比较，PA的数值已经是百分数。",
+      "safety_checks": [
+        "Do not multiply percentage values by100; 2.782324 means2.782324%.",
+        "Blank UNIT_MULT is observed in this exact percentage dataset; accept blank or0, reject an unexpected nonzero multiplier.",
+        "Rows are not reliably chronological. Filter all dimensions before sorting by month.",
+        "DECIMALS=2 in metadata does not justify truncating a value supplied with more digits.",
+        "Do not switch to harmonised HICP or month-on-month GP growth based only on a similar label."
+      ],
+      "sample_csv": "DATAFLOW,REF_AREA,FREQ,METHODOLOGY,MEASURE,UNIT_MEASURE,EXPENDITURE,ADJUSTMENT,TRANSFORMATION,TIME_PERIOD,OBS_VALUE,OBS_STATUS,UNIT_MULT,BASE_PER,DURABILITY,DECIMALS\r\nOECD.SDD.TPS:DSD_PRICES@DF_PRICES_ALL(1.0),DEU,M,N,CPI,PA,_T,N,GY,2026-07,2.782324,A,,,,2\r\nOECD.SDD.TPS:DSD_PRICES@DF_PRICES_ALL(1.0),DEU,M,N,CPI,PA,_T,N,GY,2026-08,2.861815,A,,,,2\r\n",
+      "expected": [
+        {
+          "indicator_id": "de.inflation_yoy",
+          "date": "2026-07-01",
+          "value": 2.782324,
+          "unit": "percent",
+          "status": "A"
+        },
+        {
+          "indicator_id": "de.inflation_yoy",
+          "date": "2026-08-01",
+          "value": 2.861815,
+          "unit": "percent",
+          "status": "A"
+        }
+      ]
+    }
+  ]
+}

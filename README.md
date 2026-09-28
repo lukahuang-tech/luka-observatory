@@ -1,0 +1,60 @@
+# 观测 · 个人量化研究
+
+个人持有源码与数据、可扩展的研究工作台。初始包含美国、日本、欧元区、英国、法国、德国、中国的39个利率、通胀、M2及补充口径指标。
+
+## 使用
+
+- **观察空间**：主题独立，指标由目录驱动。新建空间后可添加CSV，也可以将Excel/PDF/网页源文件交给Codex实现新适配器。
+- **图表**：月度、年度、日期区间、原值、区间起点100、同比变换；不同原始单位自动分图。点击图例/指标卡查看口径与来源。
+- **相关性**：Pearson，严格同月/同年配对；月度序列的年度统计要求12个有效月。水平相关不能解释因果。
+- **导入**：映射日期列/数值列、声明单位与频率，预览后提交；重复文件与相同映射幂等。先创建个人序列，不覆盖官方指标。源文件保存在R2，可从指标详情下载。
+- **备份**：设置里下载全部当前数据、指标、空间、来源、断点。恢复时明确确认，旧快照继续保留。原始上传文件单独下载；模型凭证与账户设置不在数据备份中。
+- **智能体**：手动调用服务端模型，或下载研究JSON、复制说明、通过合法Codex deep link预填新任务；网站不能自动附加文件或自动发送新任务。
+
+## 当前真实状态
+
+网站默认私人访问。OWNER_EMAIL由托管端配置，只读访客不能写数据或发起付费调用。邀请成员通过Sites访问控制，由用户明确提供邮箱后操作。
+
+已实现18个直接刷新适配器：FRED 11个、ECB 1个、Bundesbank 1个、BoE 2个、OECD 3个。平台打开时可每天检查一次，也可手动检查；失败保留上一份有效数据并记录原因。当地预览环境的部分外部请求超时，不能据此声称生产网络已验证。中国M2/收益率、日本M2/收益率/CPI、法国M2/最新CPI等仍按源文件更新，目录逐项显示。
+
+**后台定时更新尚未启用**。当前Sites工具没有可调用的云调度创建接口，前端计时器不等于无人值守任务。后续接入宿主调度或独立安全任务执行器时，复用`lib/refresh.ts`与快照服务；见`docs/maintenance.md`。
+
+**尚无模型密钥，未执行真实模型调用**。OpenAI通过OpenAI Developers的`openai-platform-api-key`流程取得授权并配置服务端`OPENAI_API_KEY`；兼容接口使用服务端`AI_API_KEY`。前端仅填写协议、受控地址和模型名称，不能读取密钥。新增供应商以独立服务端适配器实现。
+
+## 本地运行
+
+Node >=22.13，npm，Cloudflare Worker兼容运行时。
+
+```sh
+npm ci
+cp .env.example .env
+npm run build
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_striped_maverick.sql
+npm run dev
+```
+
+本地预览使用`seedy@sites.test`模拟身份；生产不会启用模拟身份。生产OWNER_EMAIL只在Sites秘密配置中设置，不可把本地身份带入生产。
+
+```sh
+node scripts/test-core.mjs
+node scripts/test-api.mjs # 仅对本地dev运行；建立临时数据并恢复原快照
+npx tsc --noEmit
+```
+
+## 项目结构
+
+- `app/dashboard.tsx`：工作台、空间导航、图表、来源目录。
+- `app/panels.tsx`：导入、AI交接、设置。
+- `lib/model.ts`：指标类型、日历对齐、数据变换。
+- `lib/research.ts`：研究上下文和统计；供模型、导出和WebMCP共用。
+- `lib/imports.ts`：CSV和备份校验。
+- `lib/refresh.ts`：声明式来源清单、采集解析、受控衍生计算。
+- `lib/storage.ts`：R2不可变快照与D1原子版本指针。
+- `app/api/`：认证、导入、备份、刷新、设置、模型等服务端边界。
+- `data/seed.json`：经核查的初始数据；不是每次部署覆写用户库的迁移。
+- `db/schema.ts`、`drizzle/`：数据库定义和不可变迁移。
+- `tests/`：缺口、数值口径、导入、备份与来源样本回归。
+
+## 迁移与长期所有权
+
+源码、锁文件、初始数据、数据库迁移与维护说明可打包迁走。托管账户、资源与密钥另行迁移。数据备份的`schema_version`需显式升级，旧数据不能凭名称猜测新口径。任何网站的持续可用仍取决于宿主、数据来源和维护；这套结构用于降低替换它们的成本。
