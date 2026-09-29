@@ -516,3 +516,65 @@ p {
 .recharts-wrapper:focus-visible {
   outline: 2px solid var(--ring);
 }
+
+.series-controls {
+  padding: 0 24px 16px;
+  display: grid;
+  gap: 9px;
+}
+.series-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #f7f8fa;
+  border-radius: 10px;
+}
+.series-title {
+  text-align: left;
+  flex: 1;
+  font-size: 14px;
+  min-width: 0;
+}
+.series-title small {
+  display: block;
+  color: #818894;
+  font-size: 12px;
+  margin-top: 3px;
+}
+.series-control [data-slot="select-trigger"] {
+  width: 180px;
+  flex-shrink: 0;
+  background: white;
+}
+@media (max-width: 640px) {
+  .series-controls {
+    padding: 0 12px 12px;
+  }
+  .series-control {
+    flex-wrap: wrap;
+  }
+  .series-title {
+    flex-basis: 70%;
+  }
+  .series-control [data-slot="select-trigger"] {
+    flex: 1;
+    width: auto;
+  }
+}
+.metrics {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.metric-value small {
+  display: inline-block;
+  white-space: nowrap;
+}
+@media (max-width: 767px) {
+  .chart-panel > .panel-head {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .chart-panel > .panel-head .app-actions {
+    flex-wrap: wrap;
+  }
+}

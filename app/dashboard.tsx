@@ -56,6 +56,9 @@ import {
   Dataset,
   View,
   Indicator,
+  Transform,
+  seriesTransform,
+  seriesUnit,
   chartRows,
   palette,
   selectPoints,
@@ -74,7 +77,7 @@ import {
 } from "./panels";
 const initialView: View = {
   space: "sovereign-rates",
-  ids: ["us.yield_10y", "cn.yield_10y", "jp.yield_10y"],
+  ids: ["us.yield_10y", "us.m2_level"],
   start: "2000-01-01",
   end: new Date().getFullYear() + "-12-01",
   frequency: "M",
@@ -112,10 +115,25 @@ export default function Dashboard({
   const [detail, setDetail] = useState<Indicator | null>(null);
   const [chartTab, setChartTab] = useState("chart");
   const autoDone = useRef(false);
+  const restoredView = useRef(false);
+  const views = useRef<Record<string, View>>({});
   const load = useCallback(async () => {
     try {
       const r = await api("/api/data");
       setData(r.data);
+      if (!restoredView.current) {
+        restoredView.current = true;
+        if (r.savedView) {
+          const saved = {
+            ...r.savedView,
+            ids: r.savedView.ids.filter((id: string) =>
+              r.data.indicators.some((i: Indicator) => i.id === id),
+            ),
+          };
+          setView(saved);
+          views.current.overview = saved;
+        }
+      }
       setRevision(r.revision);
       setOwner(r.owner);
       setSettings(r.settings);
@@ -222,15 +240,25 @@ export default function Dashboard({
     [data, view, revision],
   );
   function go(id: string) {
+    views.current[space] = view;
     setSpace(id);
     setChartTab("chart");
+    if (views.current[id]) {
+      setView(views.current[id]);
+      return;
+    }
+    if (id === "overview") {
+      setView(initialView);
+      return;
+    }
     const s = data.spaces.find((x) => x.id === id);
     if (s)
       setView((v) => ({
         ...v,
         space: id,
-        ids: s.default_indicator_ids.slice(0, 3),
-        transform: id === "money-supply" ? "index" : "level",
+        ids: s.default_indicator_ids.slice(0, 8),
+        transform: "level",
+        seriesOptions: {},
         frequency:
           s.indicator_ids.length &&
           data.indicators.find((i) => i.id === s.indicator_ids[0])
@@ -243,27 +271,35 @@ export default function Dashboard({
     const ids = current.indicator_ids.filter(
       (id) => data.indicators.find((i) => i.id === id)?.variable === variable,
     );
-    setView((v) => ({ ...v, ids, transform: "level" }));
+    const preferred = ids.filter(
+      (id) =>
+        !(
+          ["ea.yield_10y", "ea.real_10y_proxy"].includes(id) &&
+          ids.some((x) => x.includes("ecb_changing"))
+        ),
+    );
+    setView((v) => ({
+      ...v,
+      ids: preferred,
+      transform: "level",
+      seriesOptions: {},
+    }));
   }
   const isSystem = ["data", "settings"].includes(space);
-  const groups: Indicator[][] = [];
+  const unitGroups: Indicator[][] = [];
   for (const ind of main) {
-    const key =
-      view.transform === "level"
-        ? `${ind.display_unit}/${ind.frequency}`
-        : "same";
-    let group = groups.find(
-      (g) =>
-        (view.transform === "level"
-          ? `${g[0].display_unit}/${g[0].frequency}`
-          : "same") === key,
-    );
-    if (!group) {
-      group = [];
-      groups.push(group);
-    }
-    group.push(ind);
+    const key = seriesUnit(ind, view);
+    const group = unitGroups.find((g) => seriesUnit(g[0], view) === key);
+    if (group) group.push(ind);
+    else unitGroups.push([ind]);
   }
+  const groups =
+    unitGroups.length <= 2 ? (main.length ? [main] : []) : unitGroups;
+  const earliest =
+    main
+      .map((i) => i.coverage.start)
+      .filter(Boolean)
+      .sort()[0] || "1970-01-01";
   function exportCSV() {
     const lines = [
       "date,indicator_id,title,value,unit,frequency,source_id,source_url",
@@ -319,7 +355,7 @@ export default function Dashboard({
                 onClick={() => go("overview")}
               >
                 <LayoutGrid />
-                总览
+                自由组合
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -396,7 +432,7 @@ export default function Dashboard({
             <span className="text-sm text-[#717a88]">
               我的工作台 <span className="px-3 text-[#bdc2ca]">/</span>
               {space === "overview"
-                ? "总览"
+                ? "自由组合"
                 : space === "data"
                   ? "数据与来源"
                   : current.title}
@@ -422,14 +458,14 @@ export default function Dashboard({
               <div className="eyebrow">PERSONAL OBSERVATORY</div>
               <h1>
                 {space === "overview"
-                  ? "我的观察"
+                  ? "自由组合"
                   : space === "data"
                     ? "数据与来源"
                     : current.title}
               </h1>
               <p>
                 {space === "overview"
-                  ? "从长期趋势出发，观察世界正在发生的变化。"
+                  ? "把任意指标放在同一条时间线上。每条数据，保留自己的单位。"
                   : space === "data"
                     ? "每个数值，都保留来处。"
                     : current.description}
@@ -499,7 +535,8 @@ export default function Dashboard({
                     <TableHeader>
                       <TableRow>
                         <TableHead>指标</TableHead>
-                        <TableHead>最新观测</TableHead>
+                        <TableHead>覆盖范围</TableHead>
+                        <TableHead>区间内缺失</TableHead>
                         <TableHead>单位</TableHead>
                         <TableHead>更新方式</TableHead>
                         <TableHead>来源</TableHead>
@@ -517,7 +554,14 @@ export default function Dashboard({
                             </button>
                           </TableCell>
                           <TableCell className="whitespace-nowrap">
+                            {i.coverage.start.slice(0, 7)} —{" "}
                             {i.coverage.end.slice(0, 7)}
+                          </TableCell>
+                          <TableCell>
+                            {i.coverage.missing_months?.length
+                              ? i.coverage.missing_months.length +
+                                " 个月 · 查看口径"
+                              : "—"}
                           </TableCell>
                           <TableCell>{i.unit}</TableCell>
                           <TableCell className="whitespace-nowrap">
@@ -582,12 +626,53 @@ export default function Dashboard({
             </>
           ) : (
             <>
+              {space === "treasury-holdings" && (
+                <div className="panel p-5 mb-5">
+                  <h2>地区总持仓 · 官方与私人投资者</h2>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    下方是 TIC 地区合计，不能据此推断央行买卖。欧元区采用 TIC
+                    发布的区域合计。
+                  </p>
+                  <details className="mt-3 text-sm">
+                    <summary className="cursor-pointer">
+                      央行单独披露 · 当前可用情况
+                    </summary>
+                    {(Array.isArray(data.disclosure_status)
+                      ? data.disclosure_status
+                      : []
+                    ).map((item: any) => (
+                      <div className="mt-3" key={item.region}>
+                        <strong>
+                          {item.title} · {item.display_status}
+                        </strong>
+                        <p className="text-muted-foreground mt-1">
+                          {item.reason}
+                        </p>
+                      </div>
+                    ))}
+                  </details>
+                </div>
+              )}
+              {space === "gold-reserves" && (
+                <p className="status-message mb-5">
+                  美国为财政部官方黄金、日本为官方储备。ECB
+                  本体与欧元体系分开；月度“黄金条块”只是子项。ECB
+                  年报总黄金（含应收款）见独立年度指标，不能与条块历史拼接。
+                </p>
+              )}
+              {space === "fed-balance-sheet" && (
+                <p className="status-message mb-5">
+                  按每月最后一个已公布周度值展示，当前月为暂值。历史研究整理序列与现行
+                  H.4.1 分开选择；总资产包含下方分项，不能相加。
+                </p>
+              )}
               <div className="metrics">
                 {main.slice(0, 3).map((i, n) => {
                   const pts = selectPoints(data, i.id, {
                     ...view,
                     frequency: i.frequency === "A" ? "A" : "M",
                     transform: "level",
+                    seriesOptions: {},
                   });
                   const p = pts.at(-1);
                   return (
@@ -601,7 +686,7 @@ export default function Dashboard({
                           className="dot"
                           style={{ background: palette[n] }}
                         />
-                        {i.region_name} · {i.short_title.replace("国债", "")}
+                        {i.region_name} · {i.short_title}
                       </div>
                       <div className="metric-value">
                         {p?.value.toFixed(2) ?? "—"}
@@ -619,7 +704,11 @@ export default function Dashboard({
               <section className="panel chart-panel">
                 <div className="panel-head">
                   <div>
-                    <h2>{current.title} · 长期趋势</h2>
+                    <h2>
+                      {space === "overview"
+                        ? "我的组合图表"
+                        : current.title + " · 长期趋势"}
+                    </h2>
                     <p className="subtle mt-1">
                       {view.start.slice(0, 4)} — {view.end.slice(0, 4)} ·{" "}
                       {view.frequency === "M"
@@ -628,6 +717,23 @@ export default function Dashboard({
                     </p>
                   </div>
                   <div className="app-actions">
+                    {space === "overview" && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={!owner}
+                        onClick={async () => {
+                          try {
+                            await api("/api/view", view);
+                            setNotice("组合已保存，下次打开自动恢复。");
+                          } catch (e) {
+                            setError((e as Error).message);
+                          }
+                        }}
+                      >
+                        保存组合
+                      </Button>
+                    )}
                     <Button
                       aria-label="选择指标"
                       variant="outline"
@@ -655,7 +761,7 @@ export default function Dashboard({
                     </Tabs>
                   </div>
                 </div>
-                {current.id === "sovereign-rates" && (
+                {space !== "overview" && current.id === "sovereign-rates" && (
                   <div className="filters pb-3">
                     {[
                       ["yield_10y", "10 年期名义"],
@@ -679,36 +785,98 @@ export default function Dashboard({
                   </div>
                 )}
                 <div className="filters">
-                  {["1970", "2000", "2010", "2020"].map((y) => (
+                  {["all", "2000", "2010", "2020"].map((y) => (
                     <button
                       key={y}
                       className={
-                        "chip " + (view.start.startsWith(y) ? "active" : "")
+                        "chip " +
+                        ((
+                          y === "all"
+                            ? view.start === earliest
+                            : view.start.startsWith(y)
+                        )
+                          ? "active"
+                          : "")
                       }
                       onClick={() =>
-                        setView((v) => ({ ...v, start: y + "-01-01" }))
-                      }
-                    >
-                      {y === "1970" ? "全部历史" : y + " 年起"}
-                    </button>
-                  ))}
-                  <div className="w-36 ml-auto">
-                    <Choice
-                      label="数据变换"
-                      value={view.transform}
-                      onChange={(v) =>
-                        setView((x) => ({
-                          ...x,
-                          transform: v as View["transform"],
+                        setView((v) => ({
+                          ...v,
+                          start: y === "all" ? earliest : y + "-01-01",
                         }))
                       }
-                      items={[
-                        { value: "level", label: "原始水平" },
-                        { value: "index", label: "起点 = 100" },
-                        { value: "yoy", label: "同比变化 %" },
-                      ]}
-                    />
-                  </div>
+                    >
+                      {y === "all" ? "全部历史" : y + " 年起"}
+                    </button>
+                  ))}
+                </div>
+                <div className="series-controls">
+                  {main.map((ind, index) => (
+                    <div className="series-control" key={ind.id}>
+                      <span
+                        className="dot"
+                        style={{ background: palette[index % palette.length] }}
+                      />
+                      <button
+                        className="series-title"
+                        onClick={() => setDetail(ind)}
+                      >
+                        {ind.title}
+                        <small>
+                          {ind.coverage.start.slice(0, 7)} —{" "}
+                          {ind.coverage.end.slice(0, 7)}
+                        </small>
+                      </button>
+                      <Choice
+                        label={ind.title + "的显示方式"}
+                        value={seriesTransform(ind, view)}
+                        onChange={(value) =>
+                          setView((v) => ({
+                            ...v,
+                            seriesOptions: {
+                              ...v.seriesOptions,
+                              [ind.id]: { transform: value as Transform },
+                            },
+                          }))
+                        }
+                        items={
+                          ind.display_unit === "%"
+                            ? [
+                                { value: "level", label: "原始值 · %" },
+                                { value: "change", label: "同比变化 · 百分点" },
+                              ]
+                            : [
+                                {
+                                  value: "level",
+                                  label: "原始值 · " + ind.display_unit,
+                                },
+                                { value: "yoy", label: "同比变化 · %" },
+                                { value: "index", label: "起点 = 100" },
+                              ]
+                        }
+                      />
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        aria-label={"移除" + ind.title}
+                        onClick={() =>
+                          setView((v) => ({
+                            ...v,
+                            ids: v.ids.filter((id) => id !== ind.id),
+                          }))
+                        }
+                      >
+                        ×
+                      </Button>
+                    </div>
+                  ))}
+                  <p className="mini">
+                    {unitGroups.length === 2
+                      ? "两种单位分别使用左、右纵轴；双轴高度不能直接比较大小。"
+                      : unitGroups.length > 2
+                        ? "超过两种单位，按单位分图展示，共享时间范围。"
+                        : "相同单位共用纵轴。"}{" "}
+                    新加入的指标默认显示原始值。
+                  </p>
                 </div>
                 <div className="filters">
                   <label className="text-sm text-muted-foreground flex gap-2 items-center">
@@ -717,7 +885,7 @@ export default function Dashboard({
                       aria-label="开始月份"
                       type="month"
                       value={view.start.slice(0, 7)}
-                      min="1970-01"
+                      min="1800-01"
                       max={view.end.slice(0, 7)}
                       onChange={(e) =>
                         e.target.value &&
@@ -775,109 +943,150 @@ export default function Dashboard({
                   </div>
                 ) : chartTab === "chart" ? (
                   <>
-                    {groups.map((group, g) => (
-                      <div key={g}>
-                        {groups.length > 1 && (
-                          <p className="text-sm text-muted-foreground px-7 mt-5">
-                            {group[0].display_unit} · {group[0].frequency_name}
-                          </p>
-                        )}
-                        <div className="chart-wrap">
-                          <ResponsiveContainer
-                            width="100%"
-                            height="100%"
-                            minWidth={0}
-                          >
-                            <LineChart
-                              data={rows}
-                              margin={{
-                                left: 0,
-                                right: 15,
-                                top: 10,
-                                bottom: 5,
-                              }}
+                    {groups.map((group, g) => {
+                      const units = [
+                        ...new Set(group.map((i) => seriesUnit(i, view))),
+                      ];
+                      return (
+                        <div key={g}>
+                          {groups.length > 1 && (
+                            <p className="text-sm text-muted-foreground px-7 mt-5">
+                              {seriesUnit(group[0], view)}
+                            </p>
+                          )}
+                          <div className="chart-wrap">
+                            <ResponsiveContainer
+                              width="100%"
+                              height="100%"
+                              minWidth={0}
                             >
-                              <CartesianGrid
-                                stroke="#edf0f4"
-                                vertical={false}
-                              />
-                              <XAxis
-                                dataKey="date"
-                                tickFormatter={(s) => s.slice(0, 4)}
-                                minTickGap={65}
-                                axisLine={false}
-                                tickLine={false}
-                                dy={9}
-                              />
-                              <YAxis
-                                axisLine={false}
-                                tickLine={false}
-                                width={50}
-                                tickFormatter={(v) =>
-                                  Number(v).toLocaleString("en", {
-                                    maximumFractionDigits: 1,
-                                  })
-                                }
-                              />
-                              <Tooltip
-                                labelFormatter={(s) =>
-                                  String(s).slice(
-                                    0,
-                                    view.frequency === "M" ? 7 : 4,
-                                  )
-                                }
-                                formatter={(v, n, p) => {
-                                  const point = selectPoints(
-                                    data,
-                                    String(p.dataKey),
-                                    view,
-                                  ).find(
-                                    (x) => x.date === (p.payload as any)?.date,
-                                  );
-                                  return [
-                                    Number(v).toFixed(2) +
-                                      (view.frequency === "A" && point
-                                        ? `（${point.n} 个有效月）`
-                                        : ""),
-                                    n,
-                                  ];
+                              <LineChart
+                                data={rows}
+                                margin={{
+                                  left: 0,
+                                  right: 15,
+                                  top: 10,
+                                  bottom: 5,
                                 }}
-                              />
-                              <ReferenceLine y={0} stroke="#d7dce5" />
-                              {group.map((i) => (
-                                <Line
-                                  key={i.id}
-                                  type="linear"
-                                  dataKey={i.id}
-                                  name={i.title}
-                                  stroke={
-                                    palette[main.indexOf(i) % palette.length]
-                                  }
-                                  strokeWidth={1.9}
-                                  dot={false}
-                                  connectNulls={false}
-                                  isAnimationActive={false}
+                              >
+                                <CartesianGrid
+                                  stroke="#edf0f4"
+                                  vertical={false}
                                 />
-                              ))}
-                            </LineChart>
-                          </ResponsiveContainer>
+                                <XAxis
+                                  dataKey="date"
+                                  tickFormatter={(s) => s.slice(0, 4)}
+                                  minTickGap={65}
+                                  axisLine={false}
+                                  tickLine={false}
+                                  dy={9}
+                                />
+                                {units.map((unit, axis) => (
+                                  <YAxis
+                                    key={unit}
+                                    yAxisId={unit}
+                                    orientation={axis === 0 ? "left" : "right"}
+                                    label={{
+                                      value: unit,
+                                      position: "insideTop",
+                                      offset: -3,
+                                      fontSize: 11,
+                                    }}
+                                    axisLine={false}
+                                    tickLine={false}
+                                    width={68}
+                                    tickFormatter={(v) =>
+                                      Number(v).toLocaleString("en", {
+                                        maximumFractionDigits: 1,
+                                      })
+                                    }
+                                  />
+                                ))}
+                                <Tooltip
+                                  labelFormatter={(s) =>
+                                    String(s).slice(
+                                      0,
+                                      view.frequency === "M" ? 7 : 4,
+                                    )
+                                  }
+                                  formatter={(v, n, p) => {
+                                    const point = selectPoints(
+                                      data,
+                                      String(p.dataKey),
+                                      view,
+                                    ).find(
+                                      (x) =>
+                                        x.date === (p.payload as any)?.date,
+                                    );
+                                    return [
+                                      Number(v).toFixed(2) +
+                                        " " +
+                                        seriesUnit(
+                                          data.indicators.find(
+                                            (i) => i.id === p.dataKey,
+                                          )!,
+                                          view,
+                                        ) +
+                                        (view.frequency === "A" &&
+                                        point &&
+                                        data.indicators.find(
+                                          (i) => i.id === p.dataKey,
+                                        )?.frequency !== "A"
+                                          ? `（${point.n} 个有效月）`
+                                          : ""),
+                                      n,
+                                    ];
+                                  }}
+                                />
+                                {units.map((unit) => (
+                                  <ReferenceLine
+                                    key={unit}
+                                    yAxisId={unit}
+                                    y={0}
+                                    stroke="#d7dce5"
+                                  />
+                                ))}
+                                {group.map((i) => (
+                                  <Line
+                                    key={i.id}
+                                    type="linear"
+                                    dataKey={i.id}
+                                    yAxisId={seriesUnit(i, view)}
+                                    name={i.title}
+                                    stroke={
+                                      palette[main.indexOf(i) % palette.length]
+                                    }
+                                    strokeWidth={1.9}
+                                    dot={false}
+                                    connectNulls={false}
+                                    isAnimationActive={false}
+                                  />
+                                ))}
+                              </LineChart>
+                            </ResponsiveContainer>
+                          </div>
+                          <div className="legend">
+                            {group.map((i) => (
+                              <button key={i.id} onClick={() => setDetail(i)}>
+                                <span
+                                  className="dot"
+                                  style={{
+                                    background:
+                                      palette[main.indexOf(i) % palette.length],
+                                  }}
+                                />
+                                {i.title} · {seriesUnit(i, view)}
+                                {units.length === 2
+                                  ? units.indexOf(seriesUnit(i, view)) === 0
+                                    ? "（左轴）"
+                                    : "（右轴）"
+                                  : ""}
+                              </button>
+                            ))}
+                          </div>
                         </div>
-                        <div className="legend">
-                          {group.map((i) => (
-                            <button key={i.id} onClick={() => setDetail(i)}>
-                              <span
-                                className="dot"
-                                style={{
-                                  background:
-                                    palette[main.indexOf(i) % palette.length],
-                                }}
-                              />
-                              {i.title}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </>
                 ) : chartTab === "table" ? (
                   <div className="px-6 pb-4">
@@ -891,7 +1100,11 @@ export default function Dashboard({
                         <TableRow>
                           <TableHead>时期</TableHead>
                           {main.map((i) => (
-                            <TableHead key={i.id}>{i.title}</TableHead>
+                            <TableHead key={i.id}>
+                              {i.title}
+                              <br />
+                              {seriesUnit(i, view)}
+                            </TableHead>
                           ))}
                         </TableRow>
                       </TableHeader>
@@ -972,11 +1185,8 @@ export default function Dashboard({
                   {main.some((i) => i.variable.startsWith("real_"))
                     ? "实际利率近似 = 同月名义利率 − 当期总体 CPI/HICP 同比；与预期实际利率、TIPS 不同。 "
                     : ""}
-                  {view.transform === "index"
-                    ? "各序列以区间内首个可用值为 100，起始月可能不同。"
-                    : view.transform === "yoy"
-                      ? "同比按去年同月计算；已知口径断点对应窗口留空，不等同官方可比增速。"
-                      : "缺失月份留空，不进行插值。"}{" "}
+                  缺失月份留空，不插值。同比按去年同月计算，已知口径断点对应窗口留空。选用起点
+                  100 时，以各序列区间内首个可用值为基准，起始月可能不同。{" "}
                   {view.frequency === "A"
                     ? "年度为有效月均值；悬停查看有效月数。"
                     : ""}
@@ -1019,7 +1229,7 @@ export default function Dashboard({
                 ))}
               </div>
               <p className="footnote">
-                初始数据采集截至 {data.as_of}
+                目录数据核查截至 {String(data.catalog_as_of || data.as_of)}
                 。各地区最新观测期不同；打开平台时按设置检查已接入来源，浏览器关闭时不运行。
               </p>
             </>
@@ -1047,6 +1257,15 @@ export default function Dashboard({
           onChange={(v) =>
             setView({
               ...v,
+              transform: "level",
+              seriesOptions: Object.fromEntries(
+                v.ids.map((id) => [
+                  id,
+                  view.ids.includes(id)
+                    ? view.seriesOptions?.[id] || { transform: "level" }
+                    : { transform: "level" },
+                ]),
+              ),
               frequency: v.ids.some(
                 (id) =>
                   data.indicators.find((i) => i.id === id)?.frequency === "A",
@@ -1095,7 +1314,38 @@ export default function Dashboard({
           onClose={() => setDetail(null)}
         >
           <p className="text-sm leading-7">{detail.definition}</p>
+          {!!(
+            data.observation_source_dates as
+              | Record<string, Record<string, string>>
+              | undefined
+          )?.[detail.id] && (
+            <p className="text-sm text-muted-foreground">
+              最近原始观测日期：
+              {Object.values(
+                (
+                  data.observation_source_dates as Record<
+                    string,
+                    Record<string, string>
+                  >
+                )[detail.id],
+              )
+                .sort()
+                .at(-1)}
+              。图中以月份或年份统一对齐。
+            </p>
+          )}
           <p className="status-message">{detail.comparability_note}</p>
+          {(detail.coverage.missing_months?.length || 0) > 0 && (
+            <p className="text-sm">
+              统计区间内缺少 {detail.coverage.missing_months!.length} 个月：
+              {detail.coverage
+                .missing_months!.slice(0, 24)
+                .map((d) => d.slice(0, 7))
+                .join("、")}
+              {detail.coverage.missing_months!.length > 24 ? "…" : ""}
+              。覆盖范围之前及之后不作为已发布数据。
+            </p>
+          )}
           {detail.breaks.length > 0 && (
             <div>
               <h2 className="text-base mb-2">口径变化与缺口</h2>

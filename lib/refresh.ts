@@ -1,3 +1,8 @@
+import {
+  goldSpecs,
+  fetchGoldSource,
+  type GoldRefreshSpec,
+} from "./gold-adapters";
 import { csvRows, validatePoints } from "./imports";
 import type { Dataset, Point } from "./model";
 export type RefreshSpec = {
@@ -10,8 +15,62 @@ export type RefreshSpec = {
   divisor: number;
   filters?: Record<string, string>;
   metadata?: Record<string, string>;
+  select?: Record<string, string>;
+  format?:
+    | "tic"
+    | "weekly"
+    | "gold-safe"
+    | "gold-mof"
+    | "gold-treasury"
+    | "gold-ecb";
+  minDate?: string;
+  includeCurrentMonth?: boolean;
 };
 export const refreshSpecs: RefreshSpec[] = [
+  ...goldSpecs,
+  ...[
+    {
+      indicator: "ea.yield_10y_ecb_changing",
+      provider: "ECB",
+      series: "IRS.M.U2.L.L40.CI.0000.EUR.N.Z",
+      url: "https://data-api.ecb.europa.eu/service/data/IRS/M.U2.L.L40.CI.0000.EUR.N.Z?format=csvdata",
+      dateColumn: "TIME_PERIOD",
+      valueColumn: "OBS_VALUE",
+      divisor: 1,
+      filters: {
+        KEY: "IRS.M.U2.L.L40.CI.0000.EUR.N.Z",
+        FREQ: "M",
+        REF_AREA: "U2",
+        UNIT: "PC",
+        UNIT_MULT: "0",
+        COLLECTION: "A",
+        IR_TYPE: "L",
+        TR_TYPE: "L40",
+        MATURITY_CAT: "CI",
+        CURRENCY_TRANS: "EUR",
+      },
+    },
+    {
+      indicator: "ea.inflation_yoy_ecb_changing",
+      provider: "ECB",
+      series: "HICP.M.U2.N.000000.4D0.ANR",
+      url: "https://data-api.ecb.europa.eu/service/data/HICP/M.U2.N.000000.4D0.ANR?format=csvdata",
+      dateColumn: "TIME_PERIOD",
+      valueColumn: "OBS_VALUE",
+      divisor: 1,
+      filters: {
+        KEY: "HICP.M.U2.N.000000.4D0.ANR",
+        FREQ: "M",
+        REF_AREA: "U2",
+        UNIT_MULT: "0",
+        UNIT: "PCCH",
+        ADJUSTMENT: "N",
+        ICP_ITEM: "000000",
+        DATA_PROVIDER: "4D0",
+        ICP_SUFFIX: "ANR",
+      },
+    },
+  ],
   ...Object.entries({
     "us.yield_10y": "GS10",
     "us.yield_20y": "GS20",
@@ -33,6 +92,44 @@ export const refreshSpecs: RefreshSpec[] = [
     valueColumn: series,
     divisor: 1,
   })),
+  ...Object.entries({
+    "us.fed_assets": "WALCL",
+    "us.fed_treasuries": "TREAST",
+    "us.fed_mbs": "WSHOMCB",
+  }).map(([indicator, series]) => ({
+    indicator,
+    series,
+    provider: "FRED",
+    url: `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${series}`,
+    dateColumn: "observation_date",
+    valueColumn: series,
+    divisor: 1,
+    format: "weekly" as const,
+    minDate: "1900-01-01",
+    includeCurrentMonth: true,
+  })),
+  ...Object.entries({ cn: "41408", jp: "42609", ea: "16713" }).map(
+    ([region, code]) => ({
+      indicator: region + ".us_treasury_holdings_total",
+      provider: "U.S. Treasury TIC",
+      series: "Table 3 / " + code,
+      url: "https://ticdata.treasury.gov/resource-center/data-chart-center/tic/Documents/slt_table3.txt",
+      dateColumn: "date",
+      valueColumn: "for_treas_pos",
+      divisor: 1000,
+      format: "tic" as const,
+      select: { country_code: code },
+      filters: {
+        country: (
+          {
+            cn: "China, Mainland",
+            jp: "Japan",
+            ea: "Memo: Euro Area",
+          } as Record<string, string>
+        )[region],
+      },
+    }),
+  ),
   {
     indicator: "ea.m2_level",
     series: "BSI.M.U2.Y.V.M20.X.1.U2.2300.Z01.E",
@@ -96,6 +193,21 @@ export const refreshSpecs: RefreshSpec[] = [
   ),
 ];
 export function parseSource(text: string, spec: RefreshSpec, ref: string) {
+  if (spec.format === "tic") {
+    if (
+      !text.includes(
+        "Table 3: U.S. Treasury Securities Held by Foreign Residents",
+      ) ||
+      !text.includes("Millions of dollars")
+    )
+      throw new Error("TIC表名或单位变化，保留原数据。");
+    const lines = text.split(/\r?\n/);
+    const start = lines.findIndex((line) =>
+      line.startsWith("country\tcountry_code\tdate\tfor_treas_pos\t"),
+    );
+    if (start < 0) throw new Error("TIC字段变化，保留原数据。");
+    text = lines.slice(start).join("\n");
+  }
   const rows = csvRows(text);
   const header = rows.shift() || [];
   let di = header.indexOf(spec.dateColumn);
@@ -117,9 +229,17 @@ export function parseSource(text: string, spec: RefreshSpec, ref: string) {
     if (index < 0) throw new Error("来源缺少统计口径字段。");
     return { index, value };
   });
+  const selectors = Object.entries(spec.select || {}).map(([key, value]) => ({
+    index: header.indexOf(key),
+    value,
+  }));
+  if (selectors.some((f) => f.index < 0)) throw new Error("缺少来源筛选字段。");
   const points: Point[] = [];
+  const weekly = new Map<string, { date: string; point: Point }>();
+  const nativeSeen = new Set<string>();
   const currentMonth = new Date().toISOString().slice(0, 7);
   for (const row of rows) {
+    if (selectors.some((f) => row[f.index] !== f.value)) continue;
     if (spec.provider === "Bundesbank" && !/^\d{4}-\d{2}$/.test(row[di]))
       continue;
     if (filters.some((f) => row[f.index] !== f.value))
@@ -152,15 +272,32 @@ export function parseSource(text: string, spec: RefreshSpec, ref: string) {
       if (!m || mon < 0) throw new Error("来源月份无法识别。");
       date = m[2] + "-" + String(mon + 1).padStart(2, "0") + "-01";
     }
-    if (date < "1970-01-01" || date.slice(0, 7) >= currentMonth) continue;
+    if (
+      date < (spec.minDate || "1970-01-01") ||
+      (spec.includeCurrentMonth
+        ? date.slice(0, 7) > currentMonth
+        : date.slice(0, 7) >= currentMonth)
+    )
+      continue;
     if (!/^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/.test(row[vi].trim()))
       throw new Error("来源包含无效数值，旧数据已保留。");
     const value = Number(row[vi]) / spec.divisor;
     if (!Number.isFinite(value))
       throw new Error("来源包含无效数值，旧数据已保留。");
-    points.push([date, value, ref]);
+    if (spec.format === "weekly") {
+      const nativeDate = row[di];
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(nativeDate) || nativeSeen.has(nativeDate))
+        throw new Error("周度来源日期无效或重复。");
+      nativeSeen.add(nativeDate);
+      if (!weekly.has(date) || weekly.get(date)!.date < nativeDate)
+        weekly.set(date, { date: nativeDate, point: [date, value, ref] });
+    } else points.push([date, value, ref]);
   }
-  return validatePoints(points);
+  return validatePoints(
+    spec.format === "weekly"
+      ? [...weekly.values()].map((p) => p.point)
+      : points,
+  );
 }
 export function derive(data: Dataset) {
   for (const region of data.regions) {
@@ -215,6 +352,28 @@ export function derive(data: Dataset) {
         .map((p) => [p[0], p[1] - inf.get(p[0])!, ref]);
     }
   }
+  const currentEA = "ea.real_10y_ecb_changing_proxy";
+  if (data.indicators.some((i) => i.id === currentEA)) {
+    const yields = data.observations["ea.yield_10y_ecb_changing"] || [];
+    const prices = new Map(
+      (data.observations["ea.inflation_yoy_ecb_changing"] || []).map((p) => [
+        p[0],
+        p[1],
+      ]),
+    );
+    const ref = "derived_" + currentEA;
+    data.sources[ref] = {
+      id: ref,
+      series_id: currentEA,
+      provider: "平台计算",
+      source_url: "",
+      urls: [],
+      original_notes: "ECB U2同月10年名义收益率减总体HICP同比，变动成员口径。",
+    };
+    data.observations[currentEA] = yields
+      .filter((p) => prices.has(p[0]))
+      .map((p) => [p[0], p[1] - prices.get(p[0])!, ref]);
+  }
   for (const i of data.indicators) {
     const pts = data.observations[i.id];
     if (pts?.length) {
@@ -230,6 +389,8 @@ export function derive(data: Dataset) {
   return data;
 }
 export async function fetchSource(spec: RefreshSpec) {
+  if (spec.format?.startsWith("gold-"))
+    return fetchGoldSource(spec as GoldRefreshSpec);
   const response = await fetch(spec.url, {
     signal: AbortSignal.timeout(20000),
     headers: { Accept: "text/csv" },
@@ -239,7 +400,23 @@ export async function fetchSource(spec: RefreshSpec) {
   const text = await response.text();
   if (text.length > 12_000_000) throw new Error("来源文件过大，待人工检查。");
   const ref = "live_" + spec.indicator;
-  return { text, ref, points: parseSource(text, spec, ref) };
+  const sourceDates: Record<string, string> = {};
+  if (spec.format === "weekly") {
+    const rows = csvRows(text);
+    const header = rows.shift()!;
+    const di =
+      header.indexOf("observation_date") >= 0
+        ? header.indexOf("observation_date")
+        : header.indexOf("DATE");
+    const vi = header.indexOf(spec.valueColumn);
+    for (const row of rows)
+      if (row[vi] && row[vi] !== ".") {
+        const month = row[di].slice(0, 7) + "-01";
+        if (!sourceDates[month] || sourceDates[month] < row[di])
+          sourceDates[month] = row[di];
+      }
+  }
+  return { text, ref, points: parseSource(text, spec, ref), sourceDates };
 }
 export function mergeSource(
   data: Dataset,
@@ -250,6 +427,8 @@ export function mergeSource(
   const old = data.observations[spec.indicator] || [];
   if (points.length < Math.min(12, old.length))
     throw new Error("来源有效数据不足，旧数据已保留。");
+  if (old.length && points.at(-1)![0] < old.at(-1)![0])
+    throw new Error("上游最新观测期落后于已有数据，旧数据已保留。");
   const m = new Map(old.map((p) => [p[0], p]));
   points.forEach((p) => m.set(p[0], p));
   data.observations[spec.indicator] = [...m.values()].sort((a, b) =>

@@ -1,0 +1,140 @@
+{
+  "note": "Fixtures are small captured/structurally reduced official quantity samples, never user-visible model or live data.",
+  "safeIndex": "<a href=\"/safe/2026/0206/27116.html\">官方储备资产（2026）</a><a href=\"/safe/2025/0206/27115.html\">官方储备资产（2025）</a>",
+  "safe2026": "<table><tr><td>项目 Item</td><td colspan=\"2\">2026.07</td><td colspan=\"2\">2026.08</td></tr><tr><td>4.黄金 Gold</td><td>3063.54</td><td>2246.53</td><td>3500.80</td><td>2557.43</td></tr><tr><td></td><td>7608 万盎司</td><td>7608 万盎司</td><td>7673 万盎司</td><td>7673 万盎司</td></tr></table>",
+  "mof": "year,month,yearEN,monthEN,gold value,(volume [in million fine troy ounces])\n令和7年,12月,,December,117172,27.20\n令和8年,1月,,January,127525,27.20\n",
+  "treasury": {
+    "data": [
+      {
+        "record_date": "2012-01-31",
+        "facility_desc": "Mint Held Gold - Deep Storage",
+        "form_desc": "Gold Bullion",
+        "location_desc": "Denver, CO",
+        "fine_troy_ounce_qty": "43853707.279",
+        "book_value_amt": "1851599995.81",
+        "src_line_nbr": "1",
+        "record_fiscal_year": "2012",
+        "record_fiscal_quarter": "2",
+        "record_calendar_year": "2012",
+        "record_calendar_quarter": "1",
+        "record_calendar_month": "01",
+        "record_calendar_day": "31"
+      },
+      {
+        "record_date": "2012-01-31",
+        "facility_desc": "Mint Held Gold - Deep Storage",
+        "form_desc": "Gold Bullion",
+        "location_desc": "Fort Knox, KY",
+        "fine_troy_ounce_qty": "147341858.382",
+        "book_value_amt": "6221097412.78",
+        "src_line_nbr": "2",
+        "record_fiscal_year": "2012",
+        "record_fiscal_quarter": "2",
+        "record_calendar_year": "2012",
+        "record_calendar_quarter": "1",
+        "record_calendar_month": "01",
+        "record_calendar_day": "31"
+      },
+      {
+        "record_date": "2012-01-31",
+        "facility_desc": "Mint Held Gold - Deep Storage",
+        "form_desc": "Gold Bullion",
+        "location_desc": "West Point, NY",
+        "fine_troy_ounce_qty": "54067331.379",
+        "book_value_amt": "2282841677.17",
+        "src_line_nbr": "3",
+        "record_fiscal_year": "2012",
+        "record_fiscal_quarter": "2",
+        "record_calendar_year": "2012",
+        "record_calendar_quarter": "1",
+        "record_calendar_month": "01",
+        "record_calendar_day": "31"
+      },
+      {
+        "record_date": "2012-01-31",
+        "facility_desc": "Mint Held Gold - Working Stock",
+        "form_desc": "Gold Coins",
+        "location_desc": "All Locations- Coins, blanks, miscellaneous",
+        "fine_troy_ounce_qty": "2783218.656",
+        "book_value_amt": "117513614.74",
+        "src_line_nbr": "4",
+        "record_fiscal_year": "2012",
+        "record_fiscal_quarter": "2",
+        "record_calendar_year": "2012",
+        "record_calendar_quarter": "1",
+        "record_calendar_month": "01",
+        "record_calendar_day": "31"
+      },
+      {
+        "record_date": "2012-01-31",
+        "facility_desc": "Federal Reserve Bank Held Gold",
+        "form_desc": "Gold Bullion",
+        "location_desc": "Federal Reserve Banks - NY Vault",
+        "fine_troy_ounce_qty": "13376961.126",
+        "book_value_amt": "564804728.53",
+        "src_line_nbr": "5",
+        "record_fiscal_year": "2012",
+        "record_fiscal_quarter": "2",
+        "record_calendar_year": "2012",
+        "record_calendar_quarter": "1",
+        "record_calendar_month": "01",
+        "record_calendar_day": "31"
+      },
+      {
+        "record_date": "2012-01-31",
+        "facility_desc": "Federal Reserve Bank Held Gold",
+        "form_desc": "Gold Bullion",
+        "location_desc": "Federal Reserve Banks - Display",
+        "fine_troy_ounce_qty": "1993.319",
+        "book_value_amt": "84162.25",
+        "src_line_nbr": "6",
+        "record_fiscal_year": "2012",
+        "record_fiscal_quarter": "2",
+        "record_calendar_year": "2012",
+        "record_calendar_quarter": "1",
+        "record_calendar_month": "01",
+        "record_calendar_day": "31"
+      },
+      {
+        "record_date": "2012-01-31",
+        "facility_desc": "Federal Reserve Bank Held Gold",
+        "form_desc": "Gold Coins",
+        "location_desc": "Federal Reserve Banks - NY Vault",
+        "fine_troy_ounce_qty": "73808.979",
+        "book_value_amt": "3102070.31",
+        "src_line_nbr": "7",
+        "record_fiscal_year": "2012",
+        "record_fiscal_quarter": "2",
+        "record_calendar_year": "2012",
+        "record_calendar_quarter": "1",
+        "record_calendar_month": "01",
+        "record_calendar_day": "31"
+      },
+      {
+        "record_date": "2012-01-31",
+        "facility_desc": "Federal Reserve Bank Held Gold",
+        "form_desc": "Gold Coins",
+        "location_desc": "Federal Reserve Banks - Display",
+        "fine_troy_ounce_qty": "20.196",
+        "book_value_amt": "15824.95",
+        "src_line_nbr": "8",
+        "record_fiscal_year": "2012",
+        "record_fiscal_quarter": "2",
+        "record_calendar_year": "2012",
+        "record_calendar_quarter": "1",
+        "record_calendar_month": "01",
+        "record_calendar_day": "31"
+      }
+    ],
+    "meta": {
+      "total-pages": 1
+    }
+  },
+  "ecbBullion": "KEY,FREQ,ADJUSTMENT,REF_AREA,COUNTERPART_AREA,REF_SECTOR,COUNTERPART_SECTOR,FLOW_STOCK_ENTRY,ACCOUNTING_ENTRY,INT_ACC_ITEM,FUNCTIONAL_CAT,INSTR_ASSET,MATURITY,UNIT_MEASURE,CURRENCY_DENOM,VALUATION,COMP_METHOD,TYPE_ENTITY,TIME_PERIOD,OBS_VALUE,OBS_STATUS,CONF_STATUS,PRE_BREAK_VALUE,COMMENT_OBS,TIME_FORMAT,COMMENT_TS,COMPILING_ORG,DATA_COMP,DECIMALS,DISS_ORG,REF_PERIOD_DETAIL,TIME_PER_COLLECT,TITLE,TITLE_COMPL,UNIT_MULT\r\nRAS.M.N.4F.W19.S121.S1N.LE.A.FA.R.F11A._Z.XGO.XAU._Z.N.ALL,M,N,4F,W19,S121,S1N,LE,A,FA,R,F11A,_Z,XGO,XAU,_Z,N,ALL,2025-12,12.728,A,F,,,P1M,Monthly- Neither seasonally adjusted nor calendar adjusted data- ECB (European Central Bank) vis-a-vis Rest of the World (non allocated geographically)-  sector: Central bank vis-a-vis Not sectorised- Closing balance sheet/Positions/Stocks- Assets (Net Acquisition of)- Financial account- Reserve Assets- Gold bullion- Not applicable- Gold fine troy ounces-Compilation methodology based on international standards,,,3,,,E,\"Reserve assets, Monetary gold, Gold bullion, volume\",,6\r\n",
+  "expected": {
+    "safeAugustTonnes": 2386.569774864,
+    "mofTonnes": 846.01456896,
+    "treasuryJan2012Tonnes": 8133.524948100742,
+    "ecbDec2025BullionTonnes": 395.8850527104
+  }
+}

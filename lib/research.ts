@@ -1,4 +1,12 @@
-import { Dataset, View, selectPoints, pearson, calendar } from "./model";
+import {
+  Dataset,
+  View,
+  selectPoints,
+  pearson,
+  calendar,
+  seriesTransform,
+  seriesUnit,
+} from "./model";
 export function researchContext(data: Dataset, view: View, revision: number) {
   const selected = data.indicators.filter((i) => view.ids.includes(i.id));
   const sources = new Set<string>();
@@ -15,7 +23,13 @@ export function researchContext(data: Dataset, view: View, revision: number) {
     return {
       ...i,
       observations: raw,
+      originalObservationDates:
+        (
+          data.observation_source_dates as Record<string, unknown> | undefined
+        )?.[i.id] || null,
       displayed: selectPoints(data, i.id, view),
+      selectedTransform: seriesTransform(i, view),
+      displayedUnit: seriesUnit(i, view),
       missingPeriods: missing,
     };
   });
@@ -34,7 +48,7 @@ export function researchContext(data: Dataset, view: View, revision: number) {
       pairs.push({
         a: series[a].id,
         b: series[b].id,
-        method: `Pearson, ${view.frequency}, ${view.transform}, 年度仅完整12个月`,
+        method: `Pearson, ${view.frequency}, ${series[a].selectedTransform}/${series[b].selectedTransform}, 年度仅完整12个月`,
         n: paired.length,
         start: paired[0]?.date || null,
         end: paired.at(-1)?.date || null,

@@ -198,7 +198,7 @@ export function IndicatorPanel({
   return (
     <Modal
       title="选择观察指标"
-      description="最多同时观察 8 个指标；原始单位不同的指标会分别绘图。"
+      description="可跨所有空间选择，最多同时观察 8 个指标；两种单位用左右轴，更多单位分图。"
       wide
       onClose={onClose}
     >

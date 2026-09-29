@@ -30,6 +30,7 @@ async function call(path, body) {
 const initial = await call("/api/backup");
 assert.equal(initial.status, 200);
 const original = initial.value;
+const originalView = (await call("/api/data")).value.savedView;
 await call("/api/settings", {
   autoOnOpen: false,
   provider: "openai-responses",
@@ -118,6 +119,31 @@ try {
     body: JSON.stringify({ title: "bad", description: "", revision: rev }),
   });
   assert.equal(csrf.status, 403);
+  const combo = {
+    space: "sovereign-rates",
+    ids: ["us.yield_10y", "us.m2_level"],
+    start: "2000-01-01",
+    end: "2026-08-01",
+    frequency: "M",
+    transform: "level",
+    seriesOptions: { "us.m2_level": { transform: "index" } },
+  };
+  assert.equal((await call("/api/view", combo)).status, 200);
+  assert.deepEqual((await call("/api/data")).value.savedView, combo);
+  assert.equal(
+    (await call("/api/view", { ...combo, ids: ["missing.metric"] })).status,
+    400,
+  );
+  assert.equal(
+    (
+      await call("/api/view", {
+        ...combo,
+        start: "2026-12-01",
+        end: "2000-01-01",
+      })
+    ).status,
+    400,
+  );
   const ai = await call("/api/analyze", {
     question: "test",
     view: {
@@ -142,5 +168,14 @@ try {
     revision: latest.revision,
   });
   assert.equal(cleanup.status, 200);
-  console.log("Local test data restored.");
+  const resetView = originalView || {
+    space: "sovereign-rates",
+    ids: ["us.yield_10y", "us.m2_level"],
+    start: "2000-01-01",
+    end: "2026-12-01",
+    frequency: "M",
+    transform: "level",
+  };
+  assert.equal((await call("/api/view", resetView)).status, 200);
+  console.log("Local test data and view restored.");
 }

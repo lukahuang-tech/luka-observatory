@@ -3,14 +3,7 @@ import { authorize, body, json, failure } from "@/lib/http";
 import { readSnapshot, readSettings } from "@/lib/storage";
 import { config, database } from "@/db";
 import { researchContext } from "@/lib/research";
-const viewSchema = z.object({
-  space: z.string(),
-  ids: z.array(z.string()).min(1).max(8),
-  start: z.string().regex(/^\d{4}-\d{2}-01$/),
-  end: z.string().regex(/^\d{4}-\d{2}-01$/),
-  frequency: z.enum(["M", "A"]),
-  transform: z.enum(["level", "index", "yoy"]),
-});
+import { viewSchema } from "@/lib/view";
 export async function POST(request: Request) {
   try {
     const { user } = await authorize(request, true);

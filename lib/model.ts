@@ -63,6 +63,7 @@ export type Dataset = {
   observations: Record<string, Point[]>;
   [key: string]: unknown;
 };
+export type Transform = "level" | "index" | "yoy" | "change";
 export type View = {
   space: string;
   ids: string[];
@@ -70,6 +71,7 @@ export type View = {
   end: string;
   frequency: "M" | "A";
   transform: "level" | "index" | "yoy";
+  seriesOptions?: Record<string, { transform: Transform }>;
 };
 export const palette = [
   "#276acf",
@@ -84,7 +86,7 @@ export function calendar(start: string, end: string) {
   const rows: string[] = [];
   let [y, m] = start.slice(0, 7).split("-").map(Number);
   const stop = end.slice(0, 7);
-  for (let n = 0; n < 1500; n++) {
+  for (let n = 0; n < 3600; n++) {
     const s = `${y}-${String(m).padStart(2, "0")}`;
     if (s > stop) break;
     rows.push(s + "-01");
@@ -95,6 +97,24 @@ export function calendar(start: string, end: string) {
   }
   return rows;
 }
+export function seriesTransform(ind: Indicator, view: View): Transform {
+  const selected = view.seriesOptions?.[ind.id]?.transform ?? view.transform;
+  // Rates never inherit a rebasing/relative-growth option from another series.
+  if (ind.display_unit === "%" && (selected === "index" || selected === "yoy"))
+    return "level";
+  if (selected === "change" && ind.display_unit !== "%") return "level";
+  return selected;
+}
+export function seriesUnit(ind: Indicator, view: View) {
+  const transform = seriesTransform(ind, view);
+  return transform === "index"
+    ? "起点=100"
+    : transform === "yoy"
+      ? "同比 %"
+      : transform === "change"
+        ? "百分点"
+        : ind.display_unit;
+}
 export function selectPoints(
   data: Dataset,
   id: string,
@@ -103,6 +123,7 @@ export function selectPoints(
   const ind = data.indicators.find((i) => i.id === id);
   if (!ind) return [];
   const raw = data.observations[id] || [];
+  const transform = seriesTransform(ind, view);
   const values = new Map(raw.map((p) => [p[0], p[1]]));
   const result = raw
     .filter((p) => p[0] >= view.start && p[0] <= view.end)
@@ -110,7 +131,7 @@ export function selectPoints(
   const transformed = result
     .map((p) => {
       let v: number | null = p.value / ind.display_divisor;
-      if (view.transform === "yoy") {
+      if (transform === "yoy" || transform === "change") {
         const prev = `${Number(p.date.slice(0, 4)) - 1}${p.date.slice(4)}`;
         const base = values.get(prev);
         const crosses = ind.breaks.some(
@@ -120,8 +141,12 @@ export function selectPoints(
             (b.date || b.start || "").slice(0, 7) <= p.date.slice(0, 7),
         );
         v =
-          base !== undefined && base !== 0 && !crosses
-            ? 100 * (p.value / base - 1)
+          base !== undefined &&
+          (base !== 0 || transform === "change") &&
+          !crosses
+            ? transform === "change"
+              ? (p.value - base) / ind.display_divisor
+              : 100 * (p.value / base - 1)
             : null;
       }
       return { ...p, value: v };
@@ -131,7 +156,7 @@ export function selectPoints(
     value: number;
     n: number;
   }[];
-  if (view.transform === "index") {
+  if (transform === "index") {
     const base = transformed[0]?.value;
     if (!base) return [];
     transformed.forEach((p) => (p.value = (p.value / base) * 100));
@@ -153,14 +178,19 @@ export function selectPoints(
 }
 export function chartRows(data: Dataset, view: View) {
   const series = view.ids.map(
-    (id) => [id, selectPoints(data, id, view)] as const,
+    (id) =>
+      [
+        id,
+        new Map(selectPoints(data, id, view).map((p) => [p.date, p.value])),
+      ] as const,
   );
   let dates = calendar(view.start, view.end);
-  if (view.frequency === "A") dates = dates.filter((d) => d.endsWith("-01-01"));
+  if (view.frequency === "A")
+    dates = [...new Set(dates.map((d) => d.slice(0, 4) + "-01-01"))];
   return dates.map((date) => {
     const row: Record<string, string | number | null> = { date };
     for (const [id, points] of series) {
-      row[id] = points.find((p) => p.date === date)?.value ?? null;
+      row[id] = points.get(date) ?? null;
     }
     return row;
   });

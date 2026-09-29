@@ -45,14 +45,45 @@ export async function POST(request: Request) {
           .bind(key, new Date().toISOString())
           .run();
         const fetched = await fetchSource(spec);
-        await bucket().put(
-          `raw/${spec.indicator}/${crypto.randomUUID()}.csv`,
-          fetched.text,
+        const rawKey = `raw/${spec.indicator}/${crypto.randomUUID()}.txt`;
+        await bucket().put(rawKey, fetched.text);
+        const digest = await crypto.subtle.digest(
+          "SHA-256",
+          new TextEncoder().encode(fetched.text),
         );
+        const sha256 = [...new Uint8Array(digest)]
+          .map((x) => x.toString(16).padStart(2, "0"))
+          .join("");
         let committed = false;
         for (let n = 0; n < 2 && !committed; n++) {
           const snap = await readSnapshot();
           mergeSource(snap.data, spec, fetched.points, fetched.ref);
+          if ("sourceURL" in fetched) {
+            snap.data.sources[fetched.ref].source_url = fetched.sourceURL;
+            snap.data.sources[fetched.ref].urls = fetched.provenance.map(
+              (p) => p.url,
+            );
+          }
+          snap.data.sources[fetched.ref].original_file = {
+            key: rawKey,
+            filename: spec.indicator + "-source.txt",
+            sha256,
+          };
+          if (
+            "sourceDates" in fetched &&
+            fetched.sourceDates &&
+            Object.keys(fetched.sourceDates).length
+          ) {
+            const dates = (snap.data.observation_source_dates || {}) as Record<
+              string,
+              Record<string, string>
+            >;
+            dates[spec.indicator] = {
+              ...dates[spec.indicator],
+              ...fetched.sourceDates,
+            };
+            snap.data.observation_source_dates = dates;
+          }
           derive(snap.data);
           try {
             await saveSnapshot(snap.data, snap.revision);
@@ -78,7 +109,13 @@ export async function POST(request: Request) {
           id: spec.indicator,
           status: "failed",
           message:
-            e instanceof Error ? e.message : "来源暂不可用，旧数据已保留。",
+            e instanceof Error
+              ? /internal error/i.test(e.message)
+                ? "来源连接失败，已保留上次有效数据。"
+                : /abort|timeout/i.test(e.message)
+                  ? "来源响应超时，已保留上次有效数据。"
+                  : e.message
+              : "来源暂不可用，旧数据已保留。",
         });
       }
     }

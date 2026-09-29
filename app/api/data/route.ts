@@ -12,9 +12,14 @@ export async function GET(request: Request) {
         .prepare("SELECT * FROM runs ORDER BY created_at DESC LIMIT 20")
         .all(),
     ]);
+    const savedView = await database()
+      .prepare("SELECT value FROM settings WHERE key = ?")
+      .bind("composer-view")
+      .first<{ value: string }>();
     return json({
       ...snapshot,
       owner,
+      savedView: savedView ? JSON.parse(savedView.value) : null,
       user: { name: user.displayName },
       settings: {
         ...settings,

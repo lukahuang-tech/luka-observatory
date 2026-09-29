@@ -1,3 +1,4 @@
+import { applyCatalogRelease } from "./catalog";
 import seed from "@/data/seed.json";
 import { database, bucket } from "@/db";
 import type { Dataset } from "./model";
@@ -11,14 +12,14 @@ export async function readSnapshot(): Promise<Snapshot> {
     .first<{ revision: number; object_key: string; updated_at: string }>();
   if (!row)
     return {
-      data: structuredClone(seed) as unknown as Dataset,
+      data: applyCatalogRelease(structuredClone(seed) as unknown as Dataset),
       revision: 0,
       updatedAt: seed.as_of,
     };
   const object = await bucket().get(row.object_key);
   if (!object) throw new Error("当前快照无法读取，请稍后重试。");
   return {
-    data: await object.json<Dataset>(),
+    data: applyCatalogRelease(await object.json<Dataset>()),
     revision: row.revision,
     updatedAt: row.updated_at,
   };

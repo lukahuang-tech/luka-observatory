@@ -1,3 +1,4 @@
+import "./gold.test";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import seed from "../data/seed.json";
@@ -124,5 +125,108 @@ test("source merges preserve archived historical segments", () => {
   assert.deepEqual(
     d.observations[spec.indicator].find((p) => p[0] === "1970-01-01"),
     before,
+  );
+});
+
+test("composer keeps interest rates in percent and independent transformations", () => {
+  const mixed: View = {
+    ...view,
+    ids: ["us.yield_10y", "us.m2_level"],
+    frequency: "M",
+    start: "2020-01-01",
+    end: "2026-08-01",
+    transform: "index",
+  };
+  const rate = selectPoints(data, "us.yield_10y", mixed);
+  assert.equal(
+    rate[0].value,
+    data.observations["us.yield_10y"].find((p) => p[0] === "2020-01-01")![1],
+  );
+  assert.equal(selectPoints(data, "us.m2_level", mixed)[0].value, 100);
+  const changed = {
+    ...mixed,
+    seriesOptions: {
+      "us.yield_10y": { transform: "change" as const },
+      "us.m2_level": { transform: "level" as const },
+    },
+  };
+  const expected =
+    data.observations["us.yield_10y"].find((p) => p[0] === "2020-01-01")![1] -
+    data.observations["us.yield_10y"].find((p) => p[0] === "2019-01-01")![1];
+  assert.equal(selectPoints(data, "us.yield_10y", changed)[0].value, expected);
+  assert.notEqual(selectPoints(data, "us.m2_level", changed)[0].value, 100);
+});
+
+test("catalog expansion preserves saved observations and personal indicators", async () => {
+  const { applyCatalogRelease } = await import("../lib/catalog");
+  const existing = structuredClone(data);
+  const custom = {
+    ...structuredClone(existing.indicators[0]),
+    id: "personal.qa",
+  };
+  existing.indicators.push(custom);
+  existing.observations[custom.id] = [["2024-01-01", 123, custom.source[0]]];
+  const enriched = applyCatalogRelease(existing);
+  validateBackup(enriched);
+  assert.deepEqual(
+    enriched.observations[custom.id],
+    existing.observations[custom.id],
+  );
+  assert.deepEqual(
+    enriched.observations["us.yield_10y"],
+    data.observations["us.yield_10y"],
+  );
+  assert(
+    enriched.observations["us.fed_assets_historical"][0][0] < "1970-01-01",
+  );
+  assert.deepEqual(applyCatalogRelease(enriched), enriched);
+  for (const ind of enriched.indicators.filter((i) => i.frequency === "A")) {
+    const annual = selectPoints(enriched, ind.id, {
+      ...view,
+      start: "1900-01-01",
+      end: "2026-12-01",
+    });
+    assert(annual.every((p) => p.date.endsWith("-01-01")));
+  }
+  const latest =
+    derive(enriched).observations["ea.real_10y_ecb_changing_proxy"].at(-1)!;
+  assert.equal(latest[0], "2026-08-01");
+  assert(Math.abs(latest[1] - 0.4026326) < 1e-6);
+});
+
+test("weekly aggregation uses actual last date and rejects duplicate source dates", () => {
+  const spec = refreshSpecs.find((s) => s.indicator === "us.fed_assets")!;
+  const csv =
+    "observation_date,WALCL\n2020-01-29,5000\n2020-01-01,4000\n2020-02-05,5100";
+  assert.deepEqual(parseSource(csv, spec, "test"), [
+    ["2020-01-01", 5000, "test"],
+    ["2020-02-01", 5100, "test"],
+  ]);
+  assert.throws(() => parseSource(csv + "\n2020-01-29,3000", spec, "test"));
+});
+
+test("TIC fixture checks exact holdings unit and country code", async () => {
+  const fixture = await import("./fixtures/tic.json");
+  const spec = refreshSpecs.find(
+    (s) => s.indicator === "cn.us_treasury_holdings_total",
+  )!;
+  const points = parseSource(fixture.default.text, spec, "test");
+  assert.equal(points.at(-1)![1], 618.011);
+  assert.throws(() =>
+    parseSource(
+      fixture.default.text.replace(
+        "Millions of dollars",
+        "Billions of dollars",
+      ),
+      spec,
+      "test",
+    ),
+  );
+  assert.throws(() =>
+    parseSource(
+      fixture.default.text.replaceAll("China, Mainland", "Japan"),
+      spec,
+      "test",
+    ),
   );
 });
