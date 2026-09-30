@@ -652,7 +652,7 @@ export function SettingsPanel({
   return (
     <Modal
       title="平台设置"
-      description="管理数据更新、模型连接和完整备份。"
+      description="管理数据观察的更新和备份，以及两类观察共用的模型连接。"
       wide
       onClose={onClose}
     >
@@ -748,13 +748,14 @@ export function SettingsPanel({
         <TabsContent value="backup" className="pt-4">
           <h2 className="text-base">保留一份自己的数据</h2>
           <p className="text-sm text-muted-foreground my-3">
-            备份包含所有空间、指标、观测、来源与口径。密钥不会导出。上传的原始
-            CSV 保存在服务器，需单独下载。
+            此备份包含“数据观察”的所有空间、指标、观测、来源与口径。
+            聪明钱持仓请在“聪明钱观察 → 数据与更新”单独导出。
+            密钥不会导出。上传的原始 CSV 保存在服务器，需单独下载。
           </p>
           <Button asChild variant="outline">
             <a href="/api/backup">
               <Download size={16} />
-              下载完整数据备份
+              下载数据观察备份
             </a>
           </Button>
           <label className="field mt-7">

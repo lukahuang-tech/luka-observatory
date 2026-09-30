@@ -1,0 +1,9 @@
+{
+  "source": "13F_SmartMoney_Workbench_Mac / index.html DATA",
+  "generatedAt": "2026-08-26T14:37:49+08:00",
+  "sha256": "8cac026c46b7cb929918b8659e65de67e0e1b135f2d363899d212c72b2bb7a85",
+  "institutions": 20,
+  "institutionQuarters": 79,
+  "holdings": 24781,
+  "notes": "Imported unchanged from the user-owned local workbench. SEC XML and amendments have not been independently re-fetched."
+}

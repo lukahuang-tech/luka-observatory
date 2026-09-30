@@ -8,7 +8,6 @@ import {
   SidebarFooter,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarMenuButton,
   SidebarInset,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
@@ -64,6 +63,10 @@ import {
   selectPoints,
 } from "@/lib/model";
 import { researchContext } from "@/lib/research";
+import {
+  WorkspaceSwitch,
+  WorkspaceMenuButton as SidebarMenuButton,
+} from "@/components/workspace-switch";
 import {
   AiPanel,
   Choice,
@@ -347,6 +350,8 @@ export default function Dashboard({
           </div>
         </SidebarHeader>
         <SidebarContent className="px-4">
+          <WorkspaceSwitch active="data" />
+          <div className="nav-section mt-3">数据观察</div>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
@@ -430,7 +435,7 @@ export default function Dashboard({
           <div className="flex items-center gap-3">
             <SidebarTrigger />
             <span className="text-sm text-[#717a88]">
-              我的工作台 <span className="px-3 text-[#bdc2ca]">/</span>
+              数据观察 <span className="px-3 text-[#bdc2ca]">/</span>
               {space === "overview"
                 ? "自由组合"
                 : space === "data"

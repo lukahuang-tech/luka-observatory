@@ -1,4 +1,5 @@
 import "./gold.test";
+import "./smart-money.test";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import seed from "../data/seed.json";

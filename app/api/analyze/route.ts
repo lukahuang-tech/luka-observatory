@@ -4,14 +4,24 @@ import { readSnapshot, readSettings } from "@/lib/storage";
 import { config, database } from "@/db";
 import { researchContext } from "@/lib/research";
 import { viewSchema } from "@/lib/view";
+import { readSmartSnapshot } from "@/lib/smart-money-storage";
+import { smartPeriods, smartResearchContext } from "@/lib/smart-money";
 export async function POST(request: Request) {
   try {
     const { user } = await authorize(request, true);
     const input = z
-      .object({
-        question: z.string().trim().min(1).max(4000),
-        view: viewSchema,
-      })
+      .union([
+        z.object({
+          question: z.string().trim().min(1).max(4000),
+          view: viewSchema,
+          domain: z.literal("data").optional(),
+        }),
+        z.object({
+          question: z.string().trim().min(1).max(4000),
+          domain: z.literal("smart-money"),
+          period: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+        }),
+      ])
       .parse(await body(request));
     const prefs = await readSettings();
     const key =
@@ -22,16 +32,26 @@ export async function POST(request: Request) {
       throw new Error(
         "尚未配置模型密钥和模型名称。你可以先下载研究包交给 Codex。",
       );
-    const snap = await readSnapshot();
-    if (
-      input.view.ids.some(
-        (id) => !snap.data.indicators.some((i) => i.id === id),
+    let context: unknown, snapshotRevision: number;
+    if (input.domain === "smart-money") {
+      const snap = await readSmartSnapshot();
+      if (!smartPeriods(snap.data).includes(input.period))
+        throw new Error("所选季度不存在。");
+      context = smartResearchContext(snap.data, input.period, snap.revision);
+      snapshotRevision = snap.revision;
+    } else {
+      const snap = await readSnapshot();
+      if (
+        input.view.ids.some(
+          (id) => !snap.data.indicators.some((i) => i.id === id),
+        )
       )
-    )
-      throw new Error("所选指标不存在。");
-    if (input.view.start > input.view.end)
-      throw new Error("开始日期必须早于结束日期。");
-    const context = researchContext(snap.data, input.view, snap.revision);
+        throw new Error("所选指标不存在。");
+      if (input.view.start > input.view.end)
+        throw new Error("开始日期必须早于结束日期。");
+      context = researchContext(snap.data, input.view, snap.revision);
+      snapshotRevision = snap.revision;
+    }
     const payload = JSON.stringify({ question: input.question, context });
     if (payload.length > 180000)
       throw new Error("数据范围过大，请缩短时间范围或减少指标。");
@@ -114,8 +134,11 @@ export async function POST(request: Request) {
       model: r.model || prefs.model,
       provider: prefs.provider,
       createdAt: new Date().toISOString(),
-      snapshotRevision: snap.revision,
-      selection: input.view,
+      snapshotRevision,
+      selection:
+        input.domain === "smart-money"
+          ? { domain: input.domain, period: input.period }
+          : input.view,
       status: r.status === "incomplete" ? "incomplete" : "completed",
       usage: r.usage || null,
     });
