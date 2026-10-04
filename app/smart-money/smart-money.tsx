@@ -124,7 +124,7 @@ export default function SmartMoney() {
       doc.modelContext.registerTool(
         {
           name: "read_smart_money_context",
-          title: "读取聪明钱研究数据",
+          title: "读取13F持仓研究数据",
           description:
             "Read the selected quarter's 13F holdings summary, source links, comparison gaps and scope. Read-only; does not call a model.",
           inputSchema: {
@@ -233,7 +233,7 @@ export default function SmartMoney() {
         </SidebarHeader>
         <SidebarContent className="px-4">
           <WorkspaceSwitch active="smart-money" />
-          <div className="nav-section mt-3">聪明钱观察</div>
+          <div className="nav-section mt-3">金融机构13F持仓披露</div>
           <SidebarMenu>
             {sections.map((s) => (
               <SidebarMenuItem key={s.id}>
@@ -273,7 +273,7 @@ export default function SmartMoney() {
           <div className="flex items-center gap-3">
             <SidebarTrigger />
             <span className="text-sm text-[#717a88]">
-              聪明钱观察 <span className="px-3 text-[#bdc2ca]">/</span>
+              金融机构13F持仓披露 <span className="px-3 text-[#bdc2ca]">/</span>
               {sections.find((s) => s.id === section)?.title}
             </span>
           </div>
@@ -290,7 +290,7 @@ export default function SmartMoney() {
         <main className="workspace-main sm-workspace">
           <div className="title-row">
             <div>
-              <div className="eyebrow">SMART MONEY</div>
+              <div className="eyebrow">INSTITUTIONAL 13F</div>
               <h1>
                 {section === "overview"
                   ? "读懂机构的持仓足迹"
@@ -1049,7 +1049,7 @@ function SmartDataPanel({
         setSummary(null);
         setText("");
         setFile(null);
-        setMessage("已保存到聪明钱观察。历史季度已保留。");
+        setMessage("已保存到金融机构13F持仓披露。历史季度已保留。");
       } else {
         setText(content);
         setSummary(r.summary);
@@ -1141,7 +1141,7 @@ function SmartDataPanel({
           }
         >
           <Download size={15} />
-          导出完整聪明钱备份
+          导出完整13F持仓备份
         </Button>
         <p className="subtle">
           宏观指标在“数据观察”里独立管理，两个分类共用登录与模型设置。
@@ -1174,7 +1174,7 @@ function SmartAi({
     [error, setError] = useState("");
   return (
     <Modal
-      title="聪明钱 · 智能分析"
+      title="13F持仓披露 · 智能分析"
       description={`${quarterLabel(period)} · ${currentQuarters(data, period).length} 家同季机构 · 快照版本 ${revision}`}
       onClose={onClose}
     >

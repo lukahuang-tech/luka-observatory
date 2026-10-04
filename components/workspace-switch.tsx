@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { ChartNoAxesCombined, Landmark } from "lucide-react";
 import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
 
@@ -25,17 +24,17 @@ export function WorkspaceSwitch({
 }) {
   return (
     <nav className="workspace-switch" aria-label="观察分类">
-      <Link href="/" aria-current={active === "data" ? "page" : undefined}>
+      <a href="/" aria-current={active === "data" ? "page" : undefined}>
         <ChartNoAxesCombined size={17} />
         <span>数据观察</span>
-      </Link>
-      <Link
+      </a>
+      <a
         href="/smart-money"
         aria-current={active === "smart-money" ? "page" : undefined}
       >
         <Landmark size={17} />
-        <span>聪明钱观察</span>
-      </Link>
+        <span>金融机构13F持仓披露</span>
+      </a>
     </nav>
   );
 }

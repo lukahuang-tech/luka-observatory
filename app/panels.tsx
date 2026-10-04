@@ -749,7 +749,7 @@ export function SettingsPanel({
           <h2 className="text-base">保留一份自己的数据</h2>
           <p className="text-sm text-muted-foreground my-3">
             此备份包含“数据观察”的所有空间、指标、观测、来源与口径。
-            聪明钱持仓请在“聪明钱观察 → 数据与更新”单独导出。
+            13F持仓请在“金融机构13F持仓披露 → 数据与更新”单独导出。
             密钥不会导出。上传的原始 CSV 保存在服务器，需单独下载。
           </p>
           <Button asChild variant="outline">

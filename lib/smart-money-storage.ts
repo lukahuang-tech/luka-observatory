@@ -25,7 +25,7 @@ export async function readSmartSnapshot(): Promise<SmartSnapshot> {
     return { data, revision: 0, updatedAt: data.generatedAt };
   }
   const object = await bucket().get(row.object_key);
-  if (!object) throw new Error("聪明钱快照暂时无法读取，请重试。");
+  if (!object) throw new Error("13F持仓快照暂时无法读取，请重试。");
   return {
     data: await object.json<SmartData>(),
     revision: row.revision,
