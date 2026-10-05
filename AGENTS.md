@@ -2,7 +2,8 @@
 
 此项目是用户的长期个人量化工作台，不是一次性图表页面。
 
-- 先读 README.md 与 docs/maintenance.md。检查 .openai/hosting.json 并复用已有 project_id。
+- 先读 README.md、CONTRIBUTING.md、docs/ai-handoff.md 与 docs/maintenance.md。网站发布时检查 .openai/hosting.json 并复用已有 project_id。
+- 多个 AI 使用独立分支或 checkout，通过 Pull Request 汇合；不要覆盖其他维护者的提交。GitHub CI 只验证代码，不会自动发布线上网站。
 - 不重建网站、不覆写用户数据库，不把 seed.json 当作日常更新的数据库。
 - 新指标添加目录与数据来源，不在 UI 中为每个指标写一份专属页面。新观察主题使用独立空间。
 - 每个指标明确单位、频率、地理定义、季调、余额/流量、来源、适用区间与口径断点。不同定义不得因为名字接近而拼接。
