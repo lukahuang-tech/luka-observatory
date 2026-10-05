@@ -1,5 +1,7 @@
 # 观测 · 个人量化研究
 
+[GitHub 私有仓库](https://github.com/lukahuang-tech/luka-observatory)
+
 个人持有源码与数据、可扩展的研究工作台。包含58个指标：利率、通胀、M2、官方黄金数量、美联储资产负债表和TIC地区美债持仓，覆盖美国、日本、欧元区、英国、法国、德国和中国；历史与补充口径独立保存。
 
 其他 AI 接手请先读 [协作流程](CONTRIBUTING.md) 和 [平台说明](docs/ai-handoff.md)。在 AI 工具中授权此私有仓库，或 clone 到其开发目录，即可共同修改。每项任务使用独立分支和 Pull Request；GitHub Actions 检查数据逻辑、类型和构建。线上导入数据和密钥需单独备份；提交代码不会自动部署网站。

@@ -34,6 +34,6 @@ GitHub Actions 在 `main` 提交和 Pull Request 上运行这些检查。CI 不�
 
 GitHub 的 `main` 是协作代码入口。现有网站仍由 Sites 托管，GitHub Actions 只执行验证。合并代码后，获授权发布者需把该提交同步至既有 Sites 项目、构建并发布，再检查部署结果和真实访问。
 
-当前本机 checkout 的 `origin` 指向 Sites 源码仓库；GitHub 使用独立的 `github` remote。其他人从 GitHub clone 后，`origin` 通常指向 GitHub，这是正常的。执行 push 前先确认目标 remote 和分支。向 GitHub push 不会自动更新线上网站。
+当前本机 checkout 用 `github` remote 同步本仓库；Sites 发布工具按 `.openai/hosting.json` 中的项目编号处理其源码仓库，不依赖这里存在名为 `origin` 的 remote。其他人从 GitHub clone 后，`origin` 通常指向 GitHub，这是正常的。执行 push 前先确认目标 remote 和分支。向 GitHub push 不会自动更新线上网站。
 
 没有 Sites 权限的 AI 可以完成本地代码、测试和 Pull Request，并把准确的提交编号交给用户发布。不要使用用户浏览器 Cookie、降低认证检查或把私有站点改成公开来解决权限问题。
