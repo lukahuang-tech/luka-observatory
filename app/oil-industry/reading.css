@@ -1,0 +1,61 @@
+.oil-workspace { --oil-muted: #667182; }
+.oil-top { position: sticky; top: 0; z-index: 20; font-size: 14px; }
+.oil-divider { padding: 0 10px; color: #bbc2cd; }
+.oil-top-link { display: flex; align-items: center; gap: 8px; color: var(--oil-muted); white-space: nowrap; }
+.oil-main { max-width: 1120px; margin: 0 auto; padding-top: 42px; }
+.oil-reading { color: #343c48; font-size: 16px; line-height: 1.95; overflow-wrap: anywhere; }
+.oil-reading [id] { scroll-margin-top: 105px; }
+.oil-intro { padding-bottom: 22px; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
+.oil-eyebrow { color: var(--oil-muted); font-size: 14px; letter-spacing: 1.2px; margin-bottom: 12px; }
+.oil-intro h1 { font-size: clamp(27px, 3.2vw, 36px); line-height: 1.4; color: #202b3b; max-width: 760px; }
+.oil-reading .oil-lead { font-size: 18px; color: var(--oil-muted); margin: 14px 0 26px; }
+.oil-metrics { display: flex; gap: 30px; flex-wrap: wrap; margin-bottom: 28px; color: var(--oil-muted); font-size: 14px; }
+.oil-metrics b { font-size: 25px; font-weight: 600; color: #2d415f; margin-right: 6px; font-variant-numeric: tabular-nums; }
+.oil-chapter-links { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--border); padding-top: 18px; gap: 14px; }
+.oil-chapter-links a { font-size: 14px; text-decoration: none !important; color: #354a68 !important; }
+.oil-chapter-links span { display: block; font-size: 14px; color: #8b96a5; }
+.oil-reading h2 { font-size: 26px; line-height: 1.4; font-weight: 620; margin: 62px 0 22px; padding-top: 25px; border-top: 1px solid #dfe4eb; color: #243348; }
+.oil-reading h3 { font-size: 21px; line-height: 1.6; font-weight: 600; color: #2a3d58; margin: 42px 0 18px; }
+.oil-reading h4 { font-size: 18px; line-height: 1.7; font-weight: 600; margin: 32px 0 12px; color: #293a50; }
+.oil-reading p { line-height: 1.95; margin: 16px 0; }
+.oil-reading ul { padding-left: 1.25em; list-style: disc; margin: 16px 0 26px; }
+.oil-reading li { padding-left: 3px; margin: 10px 0; }
+.oil-reading li::marker { color: #92a1b7; }
+.oil-reading strong { font-weight: 600; color: #28384f; }
+.oil-reading a { color: #2562ab; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #b7cce6; }
+.oil-reading a:hover { color: #174d90; text-decoration-color: currentColor; }
+.oil-reading .oil-heading-link { color: inherit; text-decoration: none; }
+.oil-reading .oil-heading-link:hover { text-decoration: underline; text-decoration-color: #c5d1e0; }
+.oil-companies { display: grid; gap: 16px; }
+.oil-company { background: #fff; border: 1px solid #e2e7ee; padding: 24px 26px; border-radius: 12px; }
+.oil-company h4 { margin: 0 0 4px; }
+.oil-company .oil-security { font-size: 14px; color: #5a6f8a; margin: 0 0 18px; line-height: 1.8; }
+.oil-company dl { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 26px; margin: 0; }
+.oil-company dt { font-size: 14px; color: var(--oil-muted); margin-bottom: 5px; }
+.oil-company dd { margin: 0; line-height: 1.8; }
+.oil-company-notes { grid-column: 1 / -1; border-top: 1px solid #edf0f4; padding-top: 15px; }
+.oil-section-index { border-left: 3px solid #cbd8e8; background: #edf2f8; padding: 14px 18px; margin: 18px 0; border-radius: 0 6px 6px 0; }
+.oil-section-index summary { cursor: pointer; font-size: 14px; color: #3c5575; }
+.oil-section-index nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; padding: 16px 0 6px; }
+.oil-section-index a { font-size: 14px; }
+.oil-reading-footer { border-top: 1px solid var(--border); margin-top: 56px; padding: 24px 0 14px; display: flex; justify-content: space-between; gap: 14px; font-size: 14px; color: var(--oil-muted); }
+.oil-nav-link { min-height: 38px; height: auto !important; font-size: 14px !important; padding: 8px 12px !important; }
+.oil-nav-category { min-height: 32px; color: #697689; }
+.oil-private { display: flex; gap: 10px; align-items: center; border-top: 1px solid var(--border); padding-top: 18px; color: var(--oil-muted); font-size: 14px; }
+.oil-workspace .nav-section { font-size: 14px; letter-spacing: 0; padding-left: 12px; }
+.oil-skip { position: fixed; top: -100px; left: 20px; z-index: 100; padding: 12px; background: #fff; }
+.oil-skip:focus { top: 10px; }
+.oil-workspace a:focus-visible, .oil-section-index summary:focus-visible { outline: 2px solid #538ddd; outline-offset: 4px; border-radius: 3px; }
+@media (max-width: 767px) {
+  .oil-main { padding: 28px 18px; }
+  .oil-top-link span { display: none; }
+  .oil-divider { padding: 0 5px; }
+  .oil-metrics { gap: 12px 22px; }
+  .oil-metrics b { font-size: 22px; }
+  .oil-chapter-links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; }
+  .oil-reading h2 { font-size: 24px; margin-top: 44px; }
+  .oil-reading h3 { font-size: 20px; }
+  .oil-company { padding: 20px 18px; }
+  .oil-company dl, .oil-section-index nav { grid-template-columns: 1fr; }
+  .oil-reading-footer { flex-direction: column; }
+}

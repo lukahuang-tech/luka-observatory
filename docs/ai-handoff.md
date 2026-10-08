@@ -4,16 +4,19 @@
 
 这是个人长期使用、可扩展的量化研究平台。风格保持简洁，指标按独立主题组织，支持随时增加源文件和适配器。AI 分析由用户主动发起，可使用站内服务端模型接口，也可导出研究上下文交给其他工具。
 
-## 两个模块
+## 三个模块
 
 | 模块 | 路由 | 主要代码 | 持久化 |
 | --- | --- | --- | --- |
 | 数据观察 | `/` | `app/dashboard.tsx`、`app/panels.tsx`、`lib/model.ts`、`lib/refresh.ts` | `lib/storage.ts`，D1 版本指针与 R2 不可变快照 |
 | 金融机构13F持仓披露 | `/smart-money` | `app/smart-money/`、`lib/smart-money*.ts` | `lib/smart-money-storage.ts`，独立记录与快照 |
+| 石油产业链 | `/oil-industry` | `app/oil-industry/`、`data/oil-industry-reading.json` | 静态研究资料，无数据库写入 |
 
 `components/workspace-switch.tsx` 是共享导航。跨一级模块使用原生 `<a>` 链接，避免先前客户端跨页跳转失效。名称统一为「金融机构13F持仓披露」，URL、存储键和备份格式为兼容历史保持不变。
 
 技术栈：React 19、TypeScript、Vinext/Vite、Cloudflare Worker、D1、R2。认证使用 Sites 平台身份；本地开发插件仅在回环地址模拟开发身份，不会打包为生产认证逻辑。
+
+石油产业链完整正文在 `docs/oil-industry-reading.md`，截至2026-10-08，共60家公司、28条路线、88项应用。修改正文后执行 `node scripts/prepare-oil-reading.mjs`，同步检查用 `--check`。转换脚本只支持该资料使用的 Markdown 结构；来源链接、研究日期与边界说明须保留，不能把静态证券资料表述为实时行情。阅读页的入口须在另外两个模块中同时可见。
 
 ## 数据约定
 
