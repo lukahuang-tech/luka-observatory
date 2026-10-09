@@ -1,0 +1,6 @@
+.grid-table-wrap { overflow-x: auto; margin: 1.25rem 0; border: 1px solid var(--border, #e5e7eb); border-radius: 10px; }
+.grid-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+.grid-table th, .grid-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--border, #e5e7eb); text-align: right; white-space: nowrap; }
+.grid-table thead th { position: sticky; top: 0; background: var(--muted, #f6f7f9); font-weight: 600; }
+.grid-table th[scope="row"], .grid-table thead th:first-child { text-align: left; font-weight: 500; }
+.grid-table tbody tr:last-child > * { border-bottom: 0; }

@@ -1,5 +1,5 @@
 "use client";
-import { ChartNoAxesCombined, Landmark, Droplets } from "lucide-react";
+import { ChartNoAxesCombined, Landmark, Droplets, Zap } from "lucide-react";
 import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
 
 export function WorkspaceMenuButton(
@@ -20,7 +20,7 @@ export function WorkspaceMenuButton(
 export function WorkspaceSwitch({
   active,
 }: {
-  active: "data" | "smart-money" | "oil-industry";
+  active: "data" | "smart-money" | "oil-industry" | "grid-industry";
 }) {
   return (
     <nav className="workspace-switch" aria-label="观察分类">
@@ -41,6 +41,13 @@ export function WorkspaceSwitch({
       >
         <Droplets size={17} />
         <span>石油产业链</span>
+      </a>
+      <a
+        href="/grid-industry"
+        aria-current={active === "grid-industry" ? "page" : undefined}
+      >
+        <Zap size={17} />
+        <span>电力与电网产业链</span>
       </a>
     </nav>
   );
