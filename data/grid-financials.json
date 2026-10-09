@@ -1,0 +1,1889 @@
+[
+ {
+  "code": "NEE",
+  "name": "新纪元能源（NextEra Energy）",
+  "segment": "1 发电运营",
+  "alsoIn": "",
+  "market": "纽约证券交易所（普通股）",
+  "currency": "USD",
+  "unit": "百万美元",
+  "basis": {
+   "revenue": "总营业收入",
+   "netIncome": "NetIncomeLoss（归属母公司）",
+   "grossMargin": "不适用（受监管公用事业，损益表无毛利项目）",
+   "roe": "归母净利润/平均股东权益（期初期末平均，自行计算）"
+  },
+  "source": "SEC EDGAR XBRL（companyfacts；2026中期取自10-Q XBRL实例文件），accession 0000753308-26-000015",
+  "reportUrl": "https://www.sec.gov/Archives/edgar/data/753308/000075330826000015/nee-20251231.htm",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 28114.0,
+    "revenueYoYPct": 34.16,
+    "netIncome": 7310.0,
+    "grossMarginPct": "不适用",
+    "roePct": 16.86
+   },
+   {
+    "period": "FY2024",
+    "revenue": 24753.0,
+    "revenueYoYPct": -11.95,
+    "netIncome": 6946.0,
+    "grossMarginPct": "不适用",
+    "roePct": 14.24
+   },
+   {
+    "period": "FY2025",
+    "revenue": 27412.0,
+    "revenueYoYPct": 10.74,
+    "netIncome": 6835.0,
+    "grossMarginPct": "不适用",
+    "roePct": 13.06
+   },
+   {
+    "period": "2026H1",
+    "revenue": 14235.0,
+    "revenueYoYPct": 9.95,
+    "netIncome": 5326.0,
+    "grossMarginPct": "不适用",
+    "roePct": 9.53
+   }
+  ]
+ },
+ {
+  "code": "DUK",
+  "name": "杜克能源（Duke Energy）",
+  "segment": "1 发电运营",
+  "alsoIn": "",
+  "market": "纽约证券交易所（普通股）",
+  "currency": "USD",
+  "unit": "百万美元",
+  "basis": {
+   "revenue": "总营业收入",
+   "netIncome": "NetIncomeLoss（归属母公司）",
+   "grossMargin": "不适用（受监管公用事业，损益表无毛利项目）",
+   "roe": "归母净利润/平均股东权益（期初期末平均，自行计算）"
+  },
+  "source": "SEC EDGAR XBRL（companyfacts；2026中期取自10-Q XBRL实例文件），accession 0001326160-26-000014",
+  "reportUrl": "https://www.sec.gov/Archives/edgar/data/1326160/000132616026000014/duk-20251231.htm",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 29060.0,
+    "revenueYoYPct": 1.02,
+    "netIncome": 2841.0,
+    "grossMarginPct": "不适用",
+    "roePct": 5.77
+   },
+   {
+    "period": "FY2024",
+    "revenue": 30357.0,
+    "revenueYoYPct": 4.46,
+    "netIncome": 4524.0,
+    "grossMarginPct": "不适用",
+    "roePct": 9.12
+   },
+   {
+    "period": "FY2025",
+    "revenue": 32237.0,
+    "revenueYoYPct": 6.19,
+    "netIncome": 4968.0,
+    "grossMarginPct": "不适用",
+    "roePct": 9.74
+   },
+   {
+    "period": "2026H1",
+    "revenue": 16770.0,
+    "revenueYoYPct": 6.43,
+    "netIncome": 2642.0,
+    "grossMarginPct": "不适用",
+    "roePct": 4.96
+   }
+  ]
+ },
+ {
+  "code": "600900",
+  "name": "长江电力",
+  "segment": "1 发电运营",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-30/1219922588.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 781.44,
+    "revenueYoYPct": 13.48,
+    "netIncome": 272.45,
+    "grossMarginPct": 57.82,
+    "roePct": 13.52
+   },
+   {
+    "period": "FY2024",
+    "revenue": 844.92,
+    "revenueYoYPct": 8.12,
+    "netIncome": 324.96,
+    "grossMarginPct": 59.13,
+    "roePct": 15.71
+   },
+   {
+    "period": "FY2025",
+    "revenue": 862.42,
+    "revenueYoYPct": 2.07,
+    "netIncome": 345.03,
+    "grossMarginPct": 61.67,
+    "roePct": 15.9
+   },
+   {
+    "period": "2026H1",
+    "revenue": 379.29,
+    "revenueYoYPct": 3.36,
+    "netIncome": 147.56,
+    "grossMarginPct": 57.89,
+    "roePct": 6.55
+   }
+  ]
+ },
+ {
+  "code": "600011（另有H股0902.HK）",
+  "name": "华能国际",
+  "segment": "1 发电运营",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-03-20/1219348207.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 2543.97,
+    "revenueYoYPct": 3.11,
+    "netIncome": 84.46,
+    "grossMarginPct": 12.12,
+    "roePct": 11.25
+   },
+   {
+    "period": "FY2024",
+    "revenue": 2455.51,
+    "revenueYoYPct": -3.48,
+    "netIncome": 101.35,
+    "grossMarginPct": 15.14,
+    "roePct": 13.14
+   },
+   {
+    "period": "FY2025",
+    "revenue": 2292.88,
+    "revenueYoYPct": -6.62,
+    "netIncome": 144.1,
+    "grossMarginPct": 18.45,
+    "roePct": 19.04
+   },
+   {
+    "period": "2026H1",
+    "revenue": 1069.09,
+    "revenueYoYPct": -4.57,
+    "netIncome": 65.86,
+    "grossMarginPct": 17.42,
+    "roePct": 8.13
+   }
+  ]
+ },
+ {
+  "code": "601985",
+  "name": "中国核电",
+  "segment": "1 发电运营",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-27/1219878447.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 749.57,
+    "revenueYoYPct": 5.15,
+    "netIncome": 106.24,
+    "grossMarginPct": 44.62,
+    "roePct": 12.19
+   },
+   {
+    "period": "FY2024",
+    "revenue": 772.72,
+    "revenueYoYPct": 3.09,
+    "netIncome": 87.77,
+    "grossMarginPct": 42.91,
+    "roePct": 9.44
+   },
+   {
+    "period": "FY2025",
+    "revenue": 820.75,
+    "revenueYoYPct": 6.22,
+    "netIncome": 93.04,
+    "grossMarginPct": 41.32,
+    "roePct": 8.21
+   },
+   {
+    "period": "2026H1",
+    "revenue": 383.98,
+    "revenueYoYPct": -6.28,
+    "netIncome": 36.41,
+    "grossMarginPct": 36.47,
+    "roePct": 3.05
+   }
+  ]
+ },
+ {
+  "code": "GEV",
+  "name": "GE Vernova",
+  "segment": "2 电源配套",
+  "alsoIn": "4 一次设备",
+  "market": "纽约证券交易所（普通股）",
+  "currency": "USD",
+  "unit": "百万美元",
+  "basis": {
+   "revenue": "营业收入",
+   "netIncome": "NetIncomeLoss（归属母公司）",
+   "grossMargin": "GrossProfit/营业收入（XBRL）",
+   "roe": "未查到"
+  },
+  "source": "SEC EDGAR XBRL（companyfacts；2026中期取自10-Q XBRL实例文件），accession 0001996810-26-000015",
+  "reportUrl": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 33239.0,
+    "revenueYoYPct": 12.09,
+    "netIncome": -438.0,
+    "grossMarginPct": 14.5,
+    "roePct": "未查到"
+   },
+   {
+    "period": "FY2024",
+    "revenue": 34935.0,
+    "revenueYoYPct": 5.1,
+    "netIncome": 1552.0,
+    "grossMarginPct": 17.42,
+    "roePct": 18.3
+   },
+   {
+    "period": "FY2025",
+    "revenue": 38068.0,
+    "revenueYoYPct": 8.97,
+    "netIncome": 4884.0,
+    "grossMarginPct": 19.79,
+    "roePct": 47.13
+   },
+   {
+    "period": "2026H1",
+    "revenue": 20442.0,
+    "revenueYoYPct": 19.24,
+    "netIncome": 5413.0,
+    "grossMarginPct": 20.25,
+    "roePct": 46.79
+   }
+  ]
+ },
+ {
+  "code": "ENPH",
+  "name": "恩相能源（Enphase Energy）",
+  "segment": "2 电源配套",
+  "alsoIn": "",
+  "market": "纳斯达克（普通股）",
+  "currency": "USD",
+  "unit": "百万美元",
+  "basis": {
+   "revenue": "营业收入",
+   "netIncome": "NetIncomeLoss（归属母公司）",
+   "grossMargin": "GrossProfit/营业收入（XBRL）",
+   "roe": "归母净利润/平均股东权益（期初期末平均，自行计算）"
+  },
+  "source": "SEC EDGAR XBRL（companyfacts；2026中期取自10-Q XBRL实例文件），accession 0001463101-26-000013",
+  "reportUrl": "https://www.sec.gov/Archives/edgar/data/1463101/000146310126000013/enph-20251231.htm",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 2290.79,
+    "revenueYoYPct": -1.72,
+    "netIncome": 438.94,
+    "grossMarginPct": 46.2,
+    "roePct": 48.52
+   },
+   {
+    "period": "FY2024",
+    "revenue": 1330.38,
+    "revenueYoYPct": -41.92,
+    "netIncome": 102.66,
+    "grossMarginPct": 47.29,
+    "roePct": 11.3
+   },
+   {
+    "period": "FY2025",
+    "revenue": 1472.98,
+    "revenueYoYPct": 10.72,
+    "netIncome": 172.13,
+    "grossMarginPct": 46.64,
+    "roePct": 17.93
+   },
+   {
+    "period": "2026H1",
+    "revenue": 574.75,
+    "revenueYoYPct": -20.09,
+    "netIncome": 28.67,
+    "grossMarginPct": 47.92,
+    "roePct": 2.53
+   }
+  ]
+ },
+ {
+  "code": "SEDG",
+  "name": "SolarEdge",
+  "segment": "2 电源配套",
+  "alsoIn": "",
+  "market": "纳斯达克（普通股）",
+  "currency": "USD",
+  "unit": "百万美元",
+  "basis": {
+   "revenue": "营业收入",
+   "netIncome": "NetIncomeLoss（归属母公司）",
+   "grossMargin": "GrossProfit/营业收入（XBRL）",
+   "roe": "归母净利润/平均股东权益（期初期末平均，自行计算）"
+  },
+  "source": "SEC EDGAR XBRL（companyfacts；2026中期取自10-Q XBRL实例文件），accession 0001178913-26-001595",
+  "reportUrl": "https://www.sec.gov/Archives/edgar/data/1419612/000117891326000632/zk2634374.htm",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 2976.53,
+    "revenueYoYPct": -4.3,
+    "netIncome": 34.33,
+    "grossMarginPct": 23.65,
+    "roePct": 1.5
+   },
+   {
+    "period": "FY2024",
+    "revenue": 901.46,
+    "revenueYoYPct": -69.71,
+    "netIncome": -1806.36,
+    "grossMarginPct": -97.31,
+    "roePct": -117.67
+   },
+   {
+    "period": "FY2025",
+    "revenue": 1184.44,
+    "revenueYoYPct": 31.39,
+    "netIncome": -405.45,
+    "grossMarginPct": 16.57,
+    "roePct": -74.68
+   },
+   {
+    "period": "2026H1",
+    "revenue": 656.75,
+    "revenueYoYPct": 29.05,
+    "netIncome": -88.12,
+    "grossMarginPct": 24.89,
+    "roePct": -20.99
+   }
+  ]
+ },
+ {
+  "code": "002202（另有H股2208.HK）",
+  "name": "金风科技",
+  "segment": "2 电源配套",
+  "alsoIn": "",
+  "market": "深圳证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-03-29/1219449714.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 504.57,
+    "revenueYoYPct": 8.66,
+    "netIncome": 13.31,
+    "grossMarginPct": 13.06,
+    "roePct": 3.45
+   },
+   {
+    "period": "FY2024",
+    "revenue": 566.99,
+    "revenueYoYPct": 12.37,
+    "netIncome": 18.6,
+    "grossMarginPct": 13.8,
+    "roePct": 4.91
+   },
+   {
+    "period": "FY2025",
+    "revenue": 730.23,
+    "revenueYoYPct": 28.79,
+    "netIncome": 27.74,
+    "grossMarginPct": 14.18,
+    "roePct": 7.08
+   },
+   {
+    "period": "2026H1",
+    "revenue": 337.39,
+    "revenueYoYPct": 18.23,
+    "netIncome": 18.55,
+    "grossMarginPct": 16.76,
+    "roePct": 4.51
+   }
+  ]
+ },
+ {
+  "code": "601012",
+  "name": "隆基绿能",
+  "segment": "2 电源配套",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-30/1219925312.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 1294.98,
+    "revenueYoYPct": 0.39,
+    "netIncome": 107.51,
+    "grossMarginPct": 18.54,
+    "roePct": 16.24
+   },
+   {
+    "period": "FY2024",
+    "revenue": 825.82,
+    "revenueYoYPct": -36.23,
+    "netIncome": -85.92,
+    "grossMarginPct": 7.44,
+    "roePct": -13.07
+   },
+   {
+    "period": "FY2025",
+    "revenue": 703.47,
+    "revenueYoYPct": -14.82,
+    "netIncome": -64.2,
+    "grossMarginPct": 0.81,
+    "roePct": -11.15
+   },
+   {
+    "period": "2026H1",
+    "revenue": 270.45,
+    "revenueYoYPct": -17.58,
+    "netIncome": -36.84,
+    "grossMarginPct": 1.34,
+    "roePct": -7.04
+   }
+  ]
+ },
+ {
+  "code": "300274",
+  "name": "阳光电源",
+  "segment": "2 电源配套",
+  "alsoIn": "9 储能",
+  "market": "深圳证券交易所（创业板A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-23/1219740063.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 722.51,
+    "revenueYoYPct": 79.47,
+    "netIncome": 94.4,
+    "grossMarginPct": 27.18,
+    "roePct": 40.96
+   },
+   {
+    "period": "FY2024",
+    "revenue": 778.57,
+    "revenueYoYPct": 7.76,
+    "netIncome": 110.36,
+    "grossMarginPct": 29.94,
+    "roePct": 33.99
+   },
+   {
+    "period": "FY2025",
+    "revenue": 891.84,
+    "revenueYoYPct": 14.55,
+    "netIncome": 134.61,
+    "grossMarginPct": 31.83,
+    "roePct": 31.26
+   },
+   {
+    "period": "2026H1",
+    "revenue": 309.12,
+    "revenueYoYPct": -28.99,
+    "netIncome": 52.59,
+    "grossMarginPct": 35.92,
+    "roePct": 10.73
+   }
+  ]
+ },
+ {
+  "code": "AEP",
+  "name": "美国电力（American Electric Power）",
+  "segment": "3 输电运营",
+  "alsoIn": "1 发电运营",
+  "market": "纳斯达克（普通股）",
+  "currency": "USD",
+  "unit": "百万美元",
+  "basis": {
+   "revenue": "总营业收入",
+   "netIncome": "Net income attributable to common shareholders",
+   "grossMargin": "不适用（受监管公用事业，损益表无毛利项目）",
+   "roe": "归母净利润/平均股东权益（期初期末平均，自行计算）"
+  },
+  "source": "SEC EDGAR XBRL（companyfacts；2026中期取自10-Q XBRL实例文件），accession 0000004904-26-000013",
+  "reportUrl": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000013/aep-20251231.htm",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 18982.0,
+    "revenueYoYPct": -3.35,
+    "netIncome": 2208.0,
+    "grossMarginPct": "不适用",
+    "roePct": 8.99
+   },
+   {
+    "period": "FY2024",
+    "revenue": 19721.0,
+    "revenueYoYPct": 3.89,
+    "netIncome": 2967.0,
+    "grossMarginPct": "不适用",
+    "roePct": 11.37
+   },
+   {
+    "period": "FY2025",
+    "revenue": 21876.0,
+    "revenueYoYPct": 10.93,
+    "netIncome": 3580.0,
+    "grossMarginPct": "不适用",
+    "roePct": 12.33
+   },
+   {
+    "period": "2026H1",
+    "revenue": 11465.0,
+    "revenueYoYPct": 8.67,
+    "netIncome": 1587.0,
+    "grossMarginPct": "不适用",
+    "roePct": 5.02
+   }
+  ]
+ },
+ {
+  "code": "02638",
+  "name": "港灯电力投资（HK Electric Investments）",
+  "segment": "3 输电运营",
+  "alsoIn": "",
+  "market": "香港联交所（股份合订单位）",
+  "currency": "HKD",
+  "unit": "百万港元",
+  "basis": {
+   "revenue": "收入",
+   "netIncome": "股份合订单位持有人应占溢利",
+   "grossMargin": "(收入-直接成本)/收入，自行计算",
+   "roe": "股东应占盈利/平均股东权益（自行计算）"
+  },
+  "source": "港交所披露易业绩公告原文",
+  "reportUrl": "https://www1.hkexnews.hk/listedco/listconews/sehk/2024/0319/2024031900410.pdf",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 11406.0,
+    "revenueYoYPct": 5.68,
+    "netIncome": 3156.0,
+    "grossMarginPct": 52.8,
+    "roePct": 6.42
+   },
+   {
+    "period": "FY2024",
+    "revenue": 12057.0,
+    "revenueYoYPct": 5.71,
+    "netIncome": 3111.0,
+    "grossMarginPct": 53.57,
+    "roePct": 6.33
+   },
+   {
+    "period": "FY2025",
+    "revenue": 12125.0,
+    "revenueYoYPct": 0.56,
+    "netIncome": 3149.0,
+    "grossMarginPct": 50.18,
+    "roePct": 6.39
+   },
+   {
+    "period": "2026H1",
+    "revenue": 5939.0,
+    "revenueYoYPct": 6.68,
+    "netIncome": 1003.0,
+    "grossMarginPct": 52.3,
+    "roePct": 2.04
+   }
+  ]
+ },
+ {
+  "code": "00002",
+  "name": "中电控股（CLP Holdings）",
+  "segment": "3 输电运营",
+  "alsoIn": "",
+  "market": "香港联交所（普通股）",
+  "currency": "HKD",
+  "unit": "百万港元",
+  "basis": {
+   "revenue": "收入",
+   "netIncome": "股东应占盈利",
+   "grossMargin": "不适用（损益表无毛利项目）",
+   "roe": "股东应占盈利/平均股东权益（自行计算）"
+  },
+  "source": "港交所披露易业绩公告原文",
+  "reportUrl": "https://www1.hkexnews.hk/listedco/listconews/sehk/2024/0226/2024022600164.pdf",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 87169.0,
+    "revenueYoYPct": -13.4,
+    "netIncome": 6655.0,
+    "grossMarginPct": "不适用",
+    "roePct": 6.4
+   },
+   {
+    "period": "FY2024",
+    "revenue": 90964.0,
+    "revenueYoYPct": 4.35,
+    "netIncome": 11742.0,
+    "grossMarginPct": "不适用",
+    "roePct": 11.38
+   },
+   {
+    "period": "FY2025",
+    "revenue": 88018.0,
+    "revenueYoYPct": -3.24,
+    "netIncome": 10468.0,
+    "grossMarginPct": "不适用",
+    "roePct": 9.89
+   },
+   {
+    "period": "2026H1",
+    "revenue": 42856.0,
+    "revenueYoYPct": 0.0,
+    "netIncome": 5997.0,
+    "grossMarginPct": "不适用",
+    "roePct": 5.5
+   }
+  ]
+ },
+ {
+  "code": "ETN",
+  "name": "伊顿（Eaton）",
+  "segment": "4 一次设备",
+  "alsoIn": "",
+  "market": "纽约证券交易所（爱尔兰注册普通股）",
+  "currency": "USD",
+  "unit": "百万美元",
+  "basis": {
+   "revenue": "营业收入",
+   "netIncome": "NetIncomeLoss（归属母公司）",
+   "grossMargin": "(收入-营业成本)/收入，按XBRL计算",
+   "roe": "归母净利润/平均股东权益（期初期末平均，自行计算）"
+  },
+  "source": "SEC EDGAR XBRL（companyfacts；2026中期取自10-Q XBRL实例文件），accession 0001551182-26-000007",
+  "reportUrl": "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000007/etn-20251231.htm",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 23196.0,
+    "revenueYoYPct": 11.78,
+    "netIncome": 3218.0,
+    "grossMarginPct": 36.36,
+    "roePct": 17.84
+   },
+   {
+    "period": "FY2024",
+    "revenue": 24878.0,
+    "revenueYoYPct": 7.25,
+    "netIncome": 3794.0,
+    "grossMarginPct": 38.2,
+    "roePct": 20.22
+   },
+   {
+    "period": "FY2025",
+    "revenue": 27448.0,
+    "revenueYoYPct": 10.33,
+    "netIncome": 4087.0,
+    "grossMarginPct": 37.59,
+    "roePct": 21.56
+   },
+   {
+    "period": "2026H1",
+    "revenue": 15982.0,
+    "revenueYoYPct": 19.23,
+    "netIncome": 1687.0,
+    "grossMarginPct": 34.45,
+    "roePct": 8.5
+   }
+  ]
+ },
+ {
+  "code": "600089",
+  "name": "特变电工",
+  "segment": "4 一次设备",
+  "alsoIn": "6 线缆材料",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-09/1219538541.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 982.06,
+    "revenueYoYPct": 1.76,
+    "netIncome": 107.03,
+    "grossMarginPct": 27.3,
+    "roePct": 18.42
+   },
+   {
+    "period": "FY2024",
+    "revenue": 979.06,
+    "revenueYoYPct": -0.31,
+    "netIncome": 41.44,
+    "grossMarginPct": 18.13,
+    "roePct": 6.45
+   },
+   {
+    "period": "FY2025",
+    "revenue": 973.18,
+    "revenueYoYPct": -0.6,
+    "netIncome": 59.54,
+    "grossMarginPct": 18.8,
+    "roePct": 8.75
+   },
+   {
+    "period": "2026H1",
+    "revenue": 565.85,
+    "revenueYoYPct": 16.91,
+    "netIncome": 25.52,
+    "grossMarginPct": 18.9,
+    "roePct": 3.58
+   }
+  ]
+ },
+ {
+  "code": "601179",
+  "name": "中国西电",
+  "segment": "4 一次设备",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-11/1219567147.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 212.04,
+    "revenueYoYPct": 13.02,
+    "netIncome": 8.97,
+    "grossMarginPct": 18.05,
+    "roePct": 4.2
+   },
+   {
+    "period": "FY2024",
+    "revenue": 222.81,
+    "revenueYoYPct": 5.07,
+    "netIncome": 10.54,
+    "grossMarginPct": 20.75,
+    "roePct": 4.83
+   },
+   {
+    "period": "FY2025",
+    "revenue": 238.13,
+    "revenueYoYPct": 6.88,
+    "netIncome": 12.7,
+    "grossMarginPct": 22.75,
+    "roePct": 5.64
+   },
+   {
+    "period": "2026H1",
+    "revenue": 122.33,
+    "revenueYoYPct": 7.96,
+    "netIncome": 6.88,
+    "grossMarginPct": 24.54,
+    "roePct": 2.97
+   }
+  ]
+ },
+ {
+  "code": "600312",
+  "name": "平高电气",
+  "segment": "4 一次设备",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-11/1219567393.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 110.77,
+    "revenueYoYPct": 19.44,
+    "netIncome": 8.16,
+    "grossMarginPct": 21.13,
+    "roePct": 8.43
+   },
+   {
+    "period": "FY2024",
+    "revenue": 124.02,
+    "revenueYoYPct": 11.96,
+    "netIncome": 10.23,
+    "grossMarginPct": 22.36,
+    "roePct": 9.98
+   },
+   {
+    "period": "FY2025",
+    "revenue": 125.17,
+    "revenueYoYPct": 0.93,
+    "netIncome": 11.2,
+    "grossMarginPct": 23.92,
+    "roePct": 10.28
+   },
+   {
+    "period": "2026H1",
+    "revenue": 53.74,
+    "revenueYoYPct": -5.64,
+    "netIncome": 8.17,
+    "grossMarginPct": 29.75,
+    "roePct": 7.01
+   }
+  ]
+ },
+ {
+  "code": "000400",
+  "name": "许继电气",
+  "segment": "4 一次设备",
+  "alsoIn": "5 二次设备",
+  "market": "深圳证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-11/1219568199.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 170.61,
+    "revenueYoYPct": 13.51,
+    "netIncome": 10.05,
+    "grossMarginPct": 18.0,
+    "roePct": 9.41
+   },
+   {
+    "period": "FY2024",
+    "revenue": 170.89,
+    "revenueYoYPct": 0.17,
+    "netIncome": 11.17,
+    "grossMarginPct": 20.77,
+    "roePct": 10.08
+   },
+   {
+    "period": "FY2025",
+    "revenue": 149.92,
+    "revenueYoYPct": -12.27,
+    "netIncome": 11.67,
+    "grossMarginPct": 23.36,
+    "roePct": 9.94
+   },
+   {
+    "period": "2026H1",
+    "revenue": 65.25,
+    "revenueYoYPct": 1.21,
+    "netIncome": 4.16,
+    "grossMarginPct": 19.9,
+    "roePct": 3.4
+   }
+  ]
+ },
+ {
+  "code": "002028",
+  "name": "思源电气",
+  "segment": "4 一次设备",
+  "alsoIn": "5 二次设备",
+  "market": "深圳证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-20/1219702367.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 124.6,
+    "revenueYoYPct": 18.25,
+    "netIncome": 15.59,
+    "grossMarginPct": 29.5,
+    "roePct": 15.9
+   },
+   {
+    "period": "FY2024",
+    "revenue": 154.58,
+    "revenueYoYPct": 24.06,
+    "netIncome": 20.49,
+    "grossMarginPct": 31.25,
+    "roePct": 18.05
+   },
+   {
+    "period": "FY2025",
+    "revenue": 215.39,
+    "revenueYoYPct": 39.34,
+    "netIncome": 31.5,
+    "grossMarginPct": 30.77,
+    "roePct": 22.63
+   },
+   {
+    "period": "2026H1",
+    "revenue": 107.95,
+    "revenueYoYPct": 27.05,
+    "netIncome": 14.64,
+    "grossMarginPct": 30.46,
+    "roePct": 9.01
+   }
+  ]
+ },
+ {
+  "code": "600406",
+  "name": "国电南瑞",
+  "segment": "5 二次设备",
+  "alsoIn": "4 一次设备（换流阀）、9 储能",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-26/1219832725.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 516.55,
+    "revenueYoYPct": 10.31,
+    "netIncome": 71.75,
+    "grossMarginPct": 26.8,
+    "roePct": 16.04
+   },
+   {
+    "period": "FY2024",
+    "revenue": 578.29,
+    "revenueYoYPct": 11.95,
+    "netIncome": 76.1,
+    "grossMarginPct": 26.58,
+    "roePct": 15.85
+   },
+   {
+    "period": "FY2025",
+    "revenue": 662.29,
+    "revenueYoYPct": 14.53,
+    "netIncome": 82.79,
+    "grossMarginPct": 25.84,
+    "roePct": 16.26
+   },
+   {
+    "period": "2026H1",
+    "revenue": 277.67,
+    "revenueYoYPct": 14.54,
+    "netIncome": 30.73,
+    "grossMarginPct": 25.34,
+    "roePct": 5.73
+   }
+  ]
+ },
+ {
+  "code": "601126",
+  "name": "四方股份",
+  "segment": "5 二次设备",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-03-20/1219347247.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 57.51,
+    "revenueYoYPct": 13.24,
+    "netIncome": 6.27,
+    "grossMarginPct": 34.44,
+    "roePct": 15.47
+   },
+   {
+    "period": "FY2024",
+    "revenue": 69.51,
+    "revenueYoYPct": 20.86,
+    "netIncome": 7.16,
+    "grossMarginPct": 32.33,
+    "roePct": 16.62
+   },
+   {
+    "period": "FY2025",
+    "revenue": 81.93,
+    "revenueYoYPct": 17.87,
+    "netIncome": 8.29,
+    "grossMarginPct": 30.22,
+    "roePct": 17.75
+   },
+   {
+    "period": "2026H1",
+    "revenue": 44.82,
+    "revenueYoYPct": 11.49,
+    "netIncome": 5.14,
+    "grossMarginPct": 32.11,
+    "roePct": 10.17
+   }
+  ]
+ },
+ {
+  "code": "000682",
+  "name": "东方电子",
+  "segment": "5 二次设备",
+  "alsoIn": "8 用电（电表）",
+  "market": "深圳证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-19/1219670688.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 64.78,
+    "revenueYoYPct": 18.64,
+    "netIncome": 5.41,
+    "grossMarginPct": 33.45,
+    "roePct": 12.41
+   },
+   {
+    "period": "FY2024",
+    "revenue": 75.45,
+    "revenueYoYPct": 16.47,
+    "netIncome": 6.84,
+    "grossMarginPct": 33.71,
+    "roePct": 14.05
+   },
+   {
+    "period": "FY2025",
+    "revenue": 83.77,
+    "revenueYoYPct": 11.04,
+    "netIncome": 9.12,
+    "grossMarginPct": 32.24,
+    "roePct": 16.5
+   },
+   {
+    "period": "2026H1",
+    "revenue": 36.67,
+    "revenueYoYPct": 15.98,
+    "netIncome": 4.03,
+    "grossMarginPct": 30.68,
+    "roePct": 6.59
+   }
+  ]
+ },
+ {
+  "code": "600268",
+  "name": "国电南自",
+  "segment": "5 二次设备",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-03-29/1219444526.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 76.23,
+    "revenueYoYPct": 8.78,
+    "netIncome": 2.27,
+    "grossMarginPct": 24.11,
+    "roePct": 7.78
+   },
+   {
+    "period": "FY2024",
+    "revenue": 90.3,
+    "revenueYoYPct": 18.46,
+    "netIncome": 3.41,
+    "grossMarginPct": 23.37,
+    "roePct": 10.5
+   },
+   {
+    "period": "FY2025",
+    "revenue": 96.44,
+    "revenueYoYPct": 6.8,
+    "netIncome": 4.8,
+    "grossMarginPct": 26.29,
+    "roePct": 13.56
+   },
+   {
+    "period": "2026H1",
+    "revenue": 39.47,
+    "revenueYoYPct": -7.82,
+    "netIncome": 1.94,
+    "grossMarginPct": 28.61,
+    "roePct": 5.06
+   }
+  ]
+ },
+ {
+  "code": "600487",
+  "name": "亨通光电",
+  "segment": "6 线缆材料",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-26/1219839926.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 476.22,
+    "revenueYoYPct": 2.49,
+    "netIncome": 21.54,
+    "grossMarginPct": 15.22,
+    "roePct": 8.71
+   },
+   {
+    "period": "FY2024",
+    "revenue": 599.84,
+    "revenueYoYPct": 25.96,
+    "netIncome": 27.69,
+    "grossMarginPct": 13.21,
+    "roePct": 10.28
+   },
+   {
+    "period": "FY2025",
+    "revenue": 668.55,
+    "revenueYoYPct": 11.45,
+    "netIncome": 26.8,
+    "grossMarginPct": 12.46,
+    "roePct": 8.96
+   },
+   {
+    "period": "2026H1",
+    "revenue": 420.26,
+    "revenueYoYPct": 31.13,
+    "netIncome": 31.2,
+    "grossMarginPct": 16.77,
+    "roePct": 9.43
+   }
+  ]
+ },
+ {
+  "code": "600522",
+  "name": "中天科技",
+  "segment": "6 线缆材料",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-26/1219839967.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 450.65,
+    "revenueYoYPct": 11.91,
+    "netIncome": 31.17,
+    "grossMarginPct": 16.22,
+    "roePct": 9.84
+   },
+   {
+    "period": "FY2024",
+    "revenue": 480.61,
+    "revenueYoYPct": 6.65,
+    "netIncome": 28.38,
+    "grossMarginPct": 14.39,
+    "roePct": 8.36
+   },
+   {
+    "period": "FY2025",
+    "revenue": 525.0,
+    "revenueYoYPct": 9.24,
+    "netIncome": 29.02,
+    "grossMarginPct": 13.88,
+    "roePct": 8.0
+   },
+   {
+    "period": "2026H1",
+    "revenue": 309.39,
+    "revenueYoYPct": 31.1,
+    "netIncome": 23.87,
+    "grossMarginPct": 16.48,
+    "roePct": 6.24
+   }
+  ]
+ },
+ {
+  "code": "600869",
+  "name": "远东股份",
+  "segment": "6 线缆材料",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-10/1219554626.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 244.65,
+    "revenueYoYPct": 12.85,
+    "netIncome": 3.2,
+    "grossMarginPct": 11.71,
+    "roePct": 7.13
+   },
+   {
+    "period": "FY2024",
+    "revenue": 260.94,
+    "revenueYoYPct": 6.66,
+    "netIncome": -3.18,
+    "grossMarginPct": 9.12,
+    "roePct": -7.15
+   },
+   {
+    "period": "FY2025",
+    "revenue": 281.08,
+    "revenueYoYPct": 7.72,
+    "netIncome": 0.59,
+    "grossMarginPct": 9.19,
+    "roePct": 1.39
+   },
+   {
+    "period": "2026H1",
+    "revenue": 129.92,
+    "revenueYoYPct": 0.12,
+    "netIncome": 2.05,
+    "grossMarginPct": 10.63,
+    "roePct": 4.78
+   }
+  ]
+ },
+ {
+  "code": "HUBB",
+  "name": "哈贝尔（Hubbell）",
+  "segment": "7 配电",
+  "alsoIn": "4 一次设备",
+  "market": "纽约证券交易所（普通股）",
+  "currency": "USD",
+  "unit": "百万美元",
+  "basis": {
+   "revenue": "营业收入",
+   "netIncome": "NetIncomeLoss（归属母公司）",
+   "grossMargin": "GrossProfit/营业收入（XBRL）",
+   "roe": "归母净利润/平均股东权益（期初期末平均，自行计算）"
+  },
+  "source": "SEC EDGAR XBRL（companyfacts；2026中期取自10-Q XBRL实例文件），accession 0001628280-26-007500",
+  "reportUrl": "https://www.sec.gov/Archives/edgar/data/48898/000162828026007500/hubb-20251231.htm",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 5372.9,
+    "revenueYoYPct": 8.59,
+    "netIncome": 751.4,
+    "grossMarginPct": 34.93,
+    "roePct": 28.69
+   },
+   {
+    "period": "FY2024",
+    "revenue": 5628.5,
+    "revenueYoYPct": 4.76,
+    "netIncome": 779.0,
+    "grossMarginPct": 33.86,
+    "roePct": 24.84
+   },
+   {
+    "period": "FY2025",
+    "revenue": 5844.6,
+    "revenueYoYPct": 3.84,
+    "netIncome": 887.1,
+    "grossMarginPct": 35.32,
+    "roePct": 24.49
+   },
+   {
+    "period": "2026H1",
+    "revenue": 3228.5,
+    "revenueYoYPct": 13.3,
+    "netIncome": 422.2,
+    "grossMarginPct": 34.64,
+    "roePct": 10.88
+   }
+  ]
+ },
+ {
+  "code": "002350",
+  "name": "北京科锐",
+  "segment": "7 配电",
+  "alsoIn": "",
+  "market": "深圳证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-17/1219637036.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 19.53,
+    "revenueYoYPct": -10.28,
+    "netIncome": -1.67,
+    "grossMarginPct": 14.03,
+    "roePct": -9.38
+   },
+   {
+    "period": "FY2024",
+    "revenue": 20.42,
+    "revenueYoYPct": 4.58,
+    "netIncome": 0.39,
+    "grossMarginPct": 20.04,
+    "roePct": 2.3
+   },
+   {
+    "period": "FY2025",
+    "revenue": 21.52,
+    "revenueYoYPct": 5.34,
+    "netIncome": 0.55,
+    "grossMarginPct": 21.0,
+    "roePct": 3.25
+   },
+   {
+    "period": "2026H1",
+    "revenue": 11.3,
+    "revenueYoYPct": 20.52,
+    "netIncome": -0.21,
+    "grossMarginPct": 18.58,
+    "roePct": -1.14
+   }
+  ]
+ },
+ {
+  "code": "688330",
+  "name": "宏力达",
+  "segment": "7 配电",
+  "alsoIn": "",
+  "market": "上海证券交易所（科创板A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-26/1219821177.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 9.85,
+    "revenueYoYPct": -8.03,
+    "netIncome": 1.95,
+    "grossMarginPct": 44.47,
+    "roePct": 5.44
+   },
+   {
+    "period": "FY2024",
+    "revenue": 9.79,
+    "revenueYoYPct": -0.68,
+    "netIncome": 2.23,
+    "grossMarginPct": 45.73,
+    "roePct": 6.02
+   },
+   {
+    "period": "FY2025",
+    "revenue": 6.5,
+    "revenueYoYPct": -33.55,
+    "netIncome": 6.38,
+    "grossMarginPct": 52.18,
+    "roePct": 15.62
+   },
+   {
+    "period": "2026H1",
+    "revenue": 3.96,
+    "revenueYoYPct": 2.84,
+    "netIncome": 2.91,
+    "grossMarginPct": 28.58,
+    "roePct": 6.43
+   }
+  ]
+ },
+ {
+  "code": "688100",
+  "name": "威胜信息",
+  "segment": "8 用电",
+  "alsoIn": "",
+  "market": "上海证券交易所（科创板A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-02-29/1219210032.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 22.25,
+    "revenueYoYPct": 11.06,
+    "netIncome": 5.25,
+    "grossMarginPct": 40.79,
+    "roePct": 18.92
+   },
+   {
+    "period": "FY2024",
+    "revenue": 27.45,
+    "revenueYoYPct": 23.35,
+    "netIncome": 6.31,
+    "grossMarginPct": 39.74,
+    "roePct": 20.39
+   },
+   {
+    "period": "FY2025",
+    "revenue": 29.78,
+    "revenueYoYPct": 8.48,
+    "netIncome": 6.66,
+    "grossMarginPct": 40.17,
+    "roePct": 19.71
+   },
+   {
+    "period": "2026H1",
+    "revenue": 10.67,
+    "revenueYoYPct": -22.02,
+    "netIncome": 2.02,
+    "grossMarginPct": 38.1,
+    "roePct": 5.66
+   }
+  ]
+ },
+ {
+  "code": "601877",
+  "name": "正泰电器",
+  "segment": "8 用电",
+  "alsoIn": "2 电源配套（户用光伏）",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-30/1219922952.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 572.51,
+    "revenueYoYPct": 24.53,
+    "netIncome": 36.86,
+    "grossMarginPct": 21.86,
+    "roePct": 9.76
+   },
+   {
+    "period": "FY2024",
+    "revenue": 645.19,
+    "revenueYoYPct": 12.7,
+    "netIncome": 38.74,
+    "grossMarginPct": 23.5,
+    "roePct": 9.53
+   },
+   {
+    "period": "FY2025",
+    "revenue": 591.45,
+    "revenueYoYPct": -8.33,
+    "netIncome": 45.01,
+    "grossMarginPct": 26.0,
+    "roePct": 10.35
+   },
+   {
+    "period": "2026H1",
+    "revenue": 380.64,
+    "revenueYoYPct": 28.46,
+    "netIncome": 31.3,
+    "grossMarginPct": 23.52,
+    "roePct": 6.85
+   }
+  ]
+ },
+ {
+  "code": "300001",
+  "name": "特锐德",
+  "segment": "8 用电",
+  "alsoIn": "7 配电（箱变）",
+  "market": "深圳证券交易所（创业板A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-24/1219773082.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 126.91,
+    "revenueYoYPct": 9.12,
+    "netIncome": 4.91,
+    "grossMarginPct": 26.24,
+    "roePct": 7.51
+   },
+   {
+    "period": "FY2024",
+    "revenue": 153.74,
+    "revenueYoYPct": 21.15,
+    "netIncome": 9.17,
+    "grossMarginPct": 25.92,
+    "roePct": 13.16
+   },
+   {
+    "period": "FY2025",
+    "revenue": 157.86,
+    "revenueYoYPct": 2.68,
+    "netIncome": 12.43,
+    "grossMarginPct": 27.36,
+    "roePct": 15.68
+   },
+   {
+    "period": "2026H1",
+    "revenue": 66.35,
+    "revenueYoYPct": 6.07,
+    "netIncome": 4.28,
+    "grossMarginPct": 26.77,
+    "roePct": 4.88
+   }
+  ]
+ },
+ {
+  "code": "FLNC",
+  "name": "Fluence Energy",
+  "segment": "9 储能",
+  "alsoIn": "",
+  "market": "纳斯达克（A类普通股）",
+  "currency": "USD",
+  "unit": "百万美元",
+  "basis": {
+   "revenue": "营业收入",
+   "netIncome": "NetIncomeLoss（归属母公司）",
+   "grossMargin": "GrossProfit/营业收入（XBRL）",
+   "roe": "归母净利润/平均股东权益（期初期末平均，自行计算）"
+  },
+  "source": "SEC EDGAR XBRL（companyfacts；2026中期取自10-Q XBRL实例文件），accession 0001868941-25-000081",
+  "reportUrl": "https://www.sec.gov/Archives/edgar/data/1868941/000186894125000081/flnc-20250930.htm",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 2217.98,
+    "revenueYoYPct": 85.05,
+    "netIncome": -69.62,
+    "grossMarginPct": 6.36,
+    "roePct": -16.61
+   },
+   {
+    "period": "FY2024",
+    "revenue": 2698.56,
+    "revenueYoYPct": 21.67,
+    "netIncome": 22.72,
+    "grossMarginPct": 12.64,
+    "roePct": 5.2
+   },
+   {
+    "period": "FY2025",
+    "revenue": 2262.83,
+    "revenueYoYPct": -16.15,
+    "netIncome": -48.31,
+    "grossMarginPct": 13.07,
+    "roePct": -10.72
+   },
+   {
+    "period": "FY2026前三季度(2025-10至2026-06)",
+    "revenue": 1589.97,
+    "revenueYoYPct": 30.23,
+    "netIncome": -98.81,
+    "grossMarginPct": 6.47,
+    "roePct": -24.62
+   }
+  ]
+ },
+ {
+  "code": "STEM",
+  "name": "Stem",
+  "segment": "9 储能",
+  "alsoIn": "",
+  "market": "纽约证券交易所（普通股）",
+  "currency": "USD",
+  "unit": "百万美元",
+  "basis": {
+   "revenue": "营业收入",
+   "netIncome": "Net income attributable to common shareholders",
+   "grossMargin": "GrossProfit/营业收入（XBRL）",
+   "roe": "归母净利润/平均股东权益（期初期末平均，自行计算）"
+  },
+  "source": "SEC EDGAR XBRL（companyfacts；2026中期取自10-Q XBRL实例文件），accession 0001758766-26-000016",
+  "reportUrl": "https://www.sec.gov/Archives/edgar/data/1758766/000175876626000016/stem-20251231.htm",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 461.51,
+    "revenueYoYPct": 27.15,
+    "netIncome": -140.41,
+    "grossMarginPct": 0.79,
+    "roePct": -28.72
+   },
+   {
+    "period": "FY2024",
+    "revenue": 144.58,
+    "revenueYoYPct": -68.67,
+    "netIncome": -854.01,
+    "grossMarginPct": -7.65,
+    "roePct": "不适用"
+   },
+   {
+    "period": "FY2025",
+    "revenue": 156.27,
+    "revenueYoYPct": 8.08,
+    "netIncome": 137.76,
+    "grossMarginPct": 38.37,
+    "roePct": "不适用"
+   },
+   {
+    "period": "2026H1",
+    "revenue": 62.65,
+    "revenueYoYPct": -11.61,
+    "netIncome": -33.31,
+    "grossMarginPct": 39.5,
+    "roePct": "不适用"
+   }
+  ]
+ },
+ {
+  "code": "600995",
+  "name": "南网储能",
+  "segment": "9 储能",
+  "alsoIn": "",
+  "market": "上海证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-03-30/1219472162.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 56.3,
+    "revenueYoYPct": -31.85,
+    "netIncome": 10.14,
+    "grossMarginPct": 45.93,
+    "roePct": 4.98
+   },
+   {
+    "period": "FY2024",
+    "revenue": 61.74,
+    "revenueYoYPct": 9.67,
+    "netIncome": 11.26,
+    "grossMarginPct": 47.16,
+    "roePct": 5.31
+   },
+   {
+    "period": "FY2025",
+    "revenue": 73.77,
+    "revenueYoYPct": 19.49,
+    "netIncome": 16.89,
+    "grossMarginPct": 50.82,
+    "roePct": 7.66
+   },
+   {
+    "period": "2026H1",
+    "revenue": 41.2,
+    "revenueYoYPct": 24.83,
+    "netIncome": 11.12,
+    "grossMarginPct": 51.95,
+    "roePct": 4.8
+   }
+  ]
+ },
+ {
+  "code": "002335",
+  "name": "科华数据",
+  "segment": "9 储能",
+  "alsoIn": "",
+  "market": "深圳证券交易所（A股）",
+  "currency": "CNY",
+  "unit": "亿元",
+  "basis": {
+   "revenue": "营业总收入",
+   "netIncome": "归属于母公司股东的净利润",
+   "grossMargin": "销售毛利率（(营业收入-营业成本)/营业收入）",
+   "roe": "加权平均ROE（公司披露口径）"
+  },
+  "source": "东方财富数据中心 RPT_F10_FINANCE_MAINFINADATA；FY2024/FY2025营收与归母净利已与2025年报摘要核对",
+  "reportUrl": "http://static.cninfo.com.cn/finalpage/2024-04-26/1219828957.PDF",
+  "periods": [
+   {
+    "period": "FY2023",
+    "revenue": 81.41,
+    "revenueYoYPct": 44.13,
+    "netIncome": 5.08,
+    "grossMarginPct": 26.13,
+    "roePct": 12.63
+   },
+   {
+    "period": "FY2024",
+    "revenue": 77.57,
+    "revenueYoYPct": -4.71,
+    "netIncome": 3.15,
+    "grossMarginPct": 25.2,
+    "roePct": 6.96
+   },
+   {
+    "period": "FY2025",
+    "revenue": 81.6,
+    "revenueYoYPct": 5.2,
+    "netIncome": 4.18,
+    "grossMarginPct": 24.56,
+    "roePct": 7.09
+   },
+   {
+    "period": "2026H1",
+    "revenue": 38.84,
+    "revenueYoYPct": 4.05,
+    "netIncome": 3.96,
+    "grossMarginPct": 24.35,
+    "roePct": 6.03
+   }
+  ]
+ }
+]
