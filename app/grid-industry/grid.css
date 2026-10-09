@@ -1,3 +1,4 @@
+.grid-workspace .oil-companies { grid-template-columns: minmax(0, 1fr); }
 .grid-table-wrap { overflow-x: auto; margin: 1.25rem 0; border: 1px solid var(--border, #e5e7eb); border-radius: 10px; }
 .grid-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; font-variant-numeric: tabular-nums; }
 .grid-table th, .grid-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--border, #e5e7eb); text-align: right; white-space: nowrap; }
