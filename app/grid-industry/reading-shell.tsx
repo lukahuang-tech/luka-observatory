@@ -17,7 +17,7 @@ export default function ReadingShell({ chapters, categories, categoryLabel, chil
   children: ReactNode;
 }) {
   return (
-    <SidebarProvider className="oil-workspace" style={{ "--sidebar-width": "224px" } as CSSProperties}>
+    <SidebarProvider className="oil-workspace grid-workspace" style={{ "--sidebar-width": "224px" } as CSSProperties}>
       <a className="oil-skip" href="#reading-top">跳到正文</a>
       <Sidebar>
         <SidebarHeader>
