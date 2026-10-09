@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from "react";
 import { requireChatGPTUser } from "@/app/chatgpt-auth";
 import reading from "@/data/grid-industry-reading.json";
+import financialsData from "@/data/grid-financials.json";
 import ReadingShell from "./reading-shell";
 import "../oil-industry/reading.css";
 import "./grid.css";
@@ -15,6 +16,41 @@ type Block = {
   items?: string[]; labels?: string[]; rows?: string[][];
 };
 const blocks: Block[] = reading.blocks;
+
+type Period = { period: string; revenue: number | string | null; revenueYoYPct: number | string | null;
+  netIncome: number | string | null; grossMarginPct: number | string | null; roePct: number | string | null };
+type Financials = { code: string; unit: string; basis: Record<string, string>; source: string;
+  reportUrl?: string; periods: Period[] };
+// Keyed by the bare security code (e.g. "600011" from "600011（另有H股0902.HK）").
+const financials = new Map((financialsData as Financials[]).map(f => [f.code.split("（")[0].trim(), f]));
+
+const num = (v: number | string | null, pct = false) =>
+  v === null || v === undefined || v === "" ? "—" :
+  typeof v === "number" ? `${v.toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}${pct ? "%" : ""}` : v;
+
+function CompanyFinancials({ data }: { data: Financials }) {
+  return (
+    <details className="grid-company-fin">
+      <summary>财务数据 · {data.periods.map(p => p.period).join(" / ")}</summary>
+      <div className="grid-table-wrap" role="region" aria-label="财务数据" tabIndex={0}>
+        <table className="grid-table">
+          <thead><tr>
+            <th scope="col">期间</th><th scope="col">营业收入（{data.unit}）</th><th scope="col">营收同比</th>
+            <th scope="col">归母净利润（{data.unit}）</th><th scope="col">毛利率</th><th scope="col">ROE</th>
+          </tr></thead>
+          <tbody>{data.periods.map(p => <tr key={p.period}>
+            <th scope="row">{p.period}</th><td>{num(p.revenue)}</td><td>{num(p.revenueYoYPct, true)}</td>
+            <td>{num(p.netIncome)}</td><td>{num(p.grossMarginPct, true)}</td><td>{num(p.roePct, true)}</td>
+          </tr>)}</tbody>
+        </table>
+      </div>
+      <p className="grid-fin-note">
+        口径：营收为{data.basis.revenue}；净利润为{data.basis.netIncome}；毛利率{data.basis.grossMargin.startsWith("不适用") ? data.basis.grossMargin : `为${data.basis.grossMargin}`}；ROE 为{data.basis.roe}。
+        来源：{data.reportUrl ? <a href={data.reportUrl} target="_blank" rel="noreferrer">{data.source}<span className="sr-only">（新窗口）</span></a> : data.source}
+      </p>
+    </details>
+  );
+}
 
 // Render the reviewed document's two inline forms as React nodes. Links are
 // restricted to HTTPS/HTTP, and all remaining text stays escaped by React.
@@ -52,6 +88,7 @@ function ReadingBlock({ block, index }: { block: Block; index: number }) {
               <dt>{block.labels![column + 1]}</dt><dd><Inline text={value} /></dd>
             </div>)}
           </dl>
+          {financials.get((security[0] ?? "").trim()) && <CompanyFinancials data={financials.get((security[0] ?? "").trim())!} />}
         </section>;
       })}
     </div>

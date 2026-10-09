@@ -4,3 +4,10 @@
 .grid-table thead th { position: sticky; top: 0; background: var(--muted, #f6f7f9); font-weight: 600; }
 .grid-table th[scope="row"], .grid-table thead th:first-child { text-align: left; font-weight: 500; }
 .grid-table tbody tr:last-child > * { border-bottom: 0; }
+.grid-company-fin { margin-top: 1rem; border-top: 1px solid var(--border, #e5e7eb); padding-top: 0.85rem; }
+.grid-company-fin > summary { cursor: pointer; font-size: 0.85rem; font-weight: 500; color: var(--muted-foreground, #4b5563); list-style: none; display: inline-flex; gap: 0.4rem; align-items: center; }
+.grid-company-fin > summary::-webkit-details-marker { display: none; }
+.grid-company-fin > summary::before { content: "▸"; transition: transform .15s; }
+.grid-company-fin[open] > summary::before { transform: rotate(90deg); }
+.grid-company-fin .grid-table-wrap { margin: 0.75rem 0 0.5rem; }
+.grid-fin-note { font-size: 0.78rem; line-height: 1.6; color: var(--muted-foreground, #6b7280); margin: 0; }
