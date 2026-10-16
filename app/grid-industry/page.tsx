@@ -3,6 +3,8 @@ import { requireChatGPTUser } from "@/app/chatgpt-auth";
 import reading from "@/data/grid-industry-reading.json";
 import financialsData from "@/data/grid-financials.json";
 import ReadingShell from "./reading-shell";
+import { arrangeIndustryReading, type ReadingBlock as Block } from "@/lib/industry-reading";
+import { NoteLink, ReadingEndnotes } from "@/components/reading-endnotes";
 import "../oil-industry/reading.css";
 import "./grid.css";
 
@@ -11,11 +13,9 @@ export const metadata = {
   description: "从发电、输变配到用电与储能的完整阅读图谱。",
 };
 
-type Block = {
-  kind: string; level?: number; text?: string; id?: string;
-  items?: string[]; labels?: string[]; rows?: string[][];
-};
-const blocks: Block[] = reading.blocks;
+const { body: blocks, notes } = arrangeIndustryReading(reading.blocks);
+const discussionWindow = reading.blocks.find(b => b.kind === "paragraph" && b.text?.startsWith("时间窗口为"))
+  ?.text?.match(/\d{4}-\d{2}-\d{2} 至 \d{4}-\d{2}-\d{2}/)?.[0];
 
 type Period = { period: string; revenue: number | string | null; revenueYoYPct: number | string | null;
   netIncome: number | string | null; grossMarginPct: number | string | null; roePct: number | string | null };
@@ -75,19 +75,23 @@ function ReadingBlock({ block, index }: { block: Block; index: number }) {
     return <Heading id={block.id} tabIndex={-1}><a className="oil-heading-link" href={`#${block.id}`}>{block.text}</a></Heading>;
   }
   if (block.kind === "paragraph") return <p><Inline text={block.text!} /></p>;
-  if (block.kind === "list") return <ul>{block.items!.map((text, i) => <li key={i}><Inline text={text} /></li>)}</ul>;
+  if (block.kind === "list") return <>
+    <ul>{block.items!.map((text, i) => <li key={i}><Inline text={text} /></li>)}</ul>
+    {block.noteRefs?.map(note => <NoteLink key={note.id} note={note} />)}
+  </>;
   if (block.kind === "companies") return (
     <div className="oil-companies">
       {block.rows!.map((row, i) => {
         const [name, ...security] = row[0].split("；");
         return <section className="oil-company" key={i} aria-labelledby={`company-${index}-${i}`}>
-          <h4 id={`company-${index}-${i}`}><Inline text={name} /></h4>
+          <h4 id={`company-${index}-${i}`} tabIndex={-1}><Inline text={name} /></h4>
           <p className="oil-security">{security.join(" · ")}</p>
           <dl>
             {row.slice(1).map((value, column) => <div key={column} className={column === 2 ? "oil-company-notes" : undefined}>
               <dt>{block.labels![column + 1]}</dt><dd><Inline text={value} /></dd>
             </div>)}
           </dl>
+          {block.companyNotes?.[i] && <NoteLink note={block.companyNotes[i]} label="说明与来源" />}
           {financials.get((security[0] ?? "").trim()) && <CompanyFinancials data={financials.get((security[0] ?? "").trim())!} />}
         </section>;
       })}
@@ -120,11 +124,11 @@ export default async function GridIndustryPage() {
   const groups = breakdown.filter(b => b.level === 3);
   const categories = (groups.length ? groups : breakdown.filter(b => b.level === 4)).map(b => ({ id: b.id!, text: b.text! }));
   return (
-    <ReadingShell chapters={chapters} categories={categories} categoryLabel={categories.length ? `应用拆解 · ${categories.length} 项` : ""}>
+    <ReadingShell chapters={[...chapters, { id: "reading-notes", text: "补充说明" }]} categories={categories} categoryLabel={categories.length ? `应用拆解 · ${categories.length} 项` : ""}>
       <article className="oil-reading" aria-labelledby="reading-top">
         <header className="oil-intro">
           <div className="oil-eyebrow">产业研究 · POWER & GRID</div>
-          <h1 id="reading-top" tabIndex={-1}>{blocks[0].text}</h1>
+          <h1 id="reading-top" tabIndex={-1}>{reading.blocks[0].text}</h1>
           <p className="oil-lead">从发电厂，到特高压与变电站，再到每一块电表、每一座数据中心。</p>
           <div className="oil-metrics" aria-label="内容规模">
             {reading.counts.companies > 0 && <span><b>{reading.counts.companies}</b> 家上市公司</span>}
@@ -134,21 +138,24 @@ export default async function GridIndustryPage() {
           <nav className="oil-chapter-links" aria-label="章节快捷入口">
             {chapters.map((chapter, i) => <a key={chapter.id} href={`#${chapter.id}`}><span>0{i + 1}</span>{stripNumber(chapter.text)}</a>)}
           </nav>
+          <div className="oil-reading-meta"><span>资料截至 {reading.researchDate}</span><a href="#reading-notes">补充说明 ↓</a></div>
         </header>
-        {blocks.slice(1).map((block, i) => {
-          const index = i + 1;
+        {blocks.map((block, i) => {
+          const index = block.sourceIndex!;
           const isChapter = block.level === 2;
-          const nextChapter = blocks.findIndex((b, j) => j > index && b.level === 2);
-          const subsections = isChapter ? blocks.slice(index + 1, nextChapter < 0 ? undefined : nextChapter).filter(b => b.level === 3) : [];
-          if (isChapter && subsections.length === 0) subsections.push(...blocks.slice(index + 1, nextChapter < 0 ? undefined : nextChapter).filter(b => b.level === 4));
+          const nextChapter = blocks.findIndex((b, j) => j > i && b.level === 2);
+          const subsections = isChapter ? blocks.slice(i + 1, nextChapter < 0 ? undefined : nextChapter).filter(b => b.level === 3) : [];
+          if (isChapter && subsections.length === 0) subsections.push(...blocks.slice(i + 1, nextChapter < 0 ? undefined : nextChapter).filter(b => b.level === 4));
           return <Fragment key={index}>
             <ReadingBlock block={block} index={index} />
+            {block.level === 2 && /市场讨论/.test(block.text ?? "") && discussionWindow && <p className="oil-reading-meta">讨论窗口：{discussionWindow}</p>}
             {subsections.length > 0 && <details className="oil-section-index">
               <summary>本章索引 · {subsections.length} 个小节</summary>
               <nav aria-label={`${block.text}索引`}>{subsections.map(sub => <a key={sub.id} href={`#${sub.id}`}>{sub.text}</a>)}</nav>
             </details>}
           </Fragment>;
         })}
+        <ReadingEndnotes notes={notes} renderBlock={(block, index) => <ReadingBlock key={index} block={block} index={index} />} />
         <footer className="oil-reading-footer"><span>全文完{reading.researchDate ? ` · 研究资料截至 ${reading.researchDate}` : ""}</span><a href="#reading-top">返回开篇 ↑</a></footer>
       </article>
     </ReadingShell>
