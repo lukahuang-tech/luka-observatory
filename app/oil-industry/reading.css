@@ -34,6 +34,23 @@
 .oil-company dt { font-size: 14px; color: var(--oil-muted); margin-bottom: 5px; }
 .oil-company dd { margin: 0; line-height: 1.8; }
 .oil-company-notes { grid-column: 1 / -1; border-top: 1px solid #edf0f4; padding-top: 15px; }
+.oil-reading .oil-note-link { display: inline-block; margin: 8px 0 16px; color: var(--oil-muted); font-size: 13px; line-height: 1.7; }
+.oil-company .oil-note-link { margin: 16px 0 0; }
+.oil-reading .oil-reading-meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 18px 0 0; font-size: 13px; color: var(--oil-muted); }
+.oil-reading-meta a { color: inherit; }
+.oil-intro + h2 { margin-top: 24px; padding-top: 0; border-top: 0; }
+.oil-endnotes { margin-top: 64px; border-top: 1px solid var(--border); padding-top: 24px; font-size: 13px; color: #5b6778; line-height: 1.8; }
+.oil-endnotes h2 { border: 0; padding: 0; margin: 0 0 14px; font-size: 18px; }
+.oil-endnotes h3 { margin: 30px 0 12px; font-size: 15px; }
+.oil-endnotes h4 { margin: 14px 0 8px; font-size: 13px; }
+.oil-endnotes p { margin: 8px 0; line-height: 1.8; }
+.oil-endnotes ul { margin: 8px 0 14px; }
+.oil-endnotes li { margin: 6px 0; }
+.oil-endnotes strong { color: inherit; }
+.oil-endnote { margin: 18px 0; }
+.oil-endnote-index { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.oil-endnote-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
+.oil-endnote-title a { color: var(--oil-muted); font-size: 12px; white-space: nowrap; }
 .oil-section-index { border-left: 3px solid #cbd8e8; background: #edf2f8; padding: 14px 18px; margin: 18px 0; border-radius: 0 6px 6px 0; }
 .oil-section-index summary { cursor: pointer; font-size: 14px; color: #3c5575; }
 .oil-section-index nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; padding: 16px 0 6px; }
@@ -58,4 +75,6 @@
   .oil-company { padding: 20px 18px; }
   .oil-company dl, .oil-section-index nav { grid-template-columns: 1fr; }
   .oil-reading-footer { flex-direction: column; }
+  .oil-endnotes h2 { margin-top: 0; font-size: 18px; }
+  .oil-endnotes h3 { font-size: 15px; }
 }
